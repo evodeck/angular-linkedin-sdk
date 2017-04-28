@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "ES5",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowUnusedLabels": false,
+    "noImplicitReturns": true,
+    "sourceMap": false,
+    "declaration": true,
+    "outDir": "./dist",
+    "lib": ["dom", "es2015"],
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+  },
+  //"include": [
+  //    "../dist/**/*"
+  //],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "demo",
+    "**/*.spec.ts"
+  ],
+  "angularCompilerOptions": {
+    "genDir": "dist",
+    "strictMetadataEmit": true
+  }
+}

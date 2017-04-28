@@ -1,0 +1,11 @@
+<h1>
+  Linkedin API wrapper for Angular
+</h1>
+<div [hidden]="isLoggedIn || undefined">
+  <button (click)="login()">Login with LinkedIN</button>
+</div>
+<button (click)="logIsLogged()">Is logged?</button>
+<div [hidden]="!isLoggedIn || undefined">
+  <button (click)="logout()">Logout from LinkedIN</button>
+</div>
+<button (click)="rawApiCall()">Get data</button>

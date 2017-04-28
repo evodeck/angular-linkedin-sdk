@@ -1,5 +1,5 @@
 {
-  "name": "angular2-linkedin-api-wrapper",
+  "name": "angular-linkedin-api-wrapper",
   "version": "0.1.0",
   "scripts": {
     "build": "ngc && cp README.MD dist/README.MD && cp package.json dist/package.json && cd dist && sed -i '' '/\"scripts\": {$/,/},$/d' package.json",

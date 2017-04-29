@@ -76,9 +76,9 @@ export class YourComponent implements OnInit {
 
 * [isInitialized](#isInitialized)
 * [isUserAuthenticated](#isUserAuthenticated)
-* [Login](#login)
-* [Logout](#logout)
-* [RAW API Call](#rawapicall)
+* [login](#login)
+* [logout](#logout)
+* [raw](#rawapicall)
 
 ### isInitialized
 An observable that emits true and completes when library has finished loading.
@@ -151,23 +151,24 @@ Enables authenticated calls to the LinkedIn REST API using the generic call wrap
 #### Parameters
 
  * `url` The API URL to invoke: should not include `https://api.linkedin.com/v1`.
- * `method` The HTTP method to use (GET, POST, PUT, or DELETE). If omitted, uses a default value of GET.
- * `bodyContent` For APIs with a POST body, POSTs and PUTs, this is the URL encoded post body. For GET requests this does nothing.
 
 #### Example
 ```typescript
-public subscribeToRawApiCall(){
-    this._linkedInService.rawApiCall(url, method, bodyContent).subscribe({
-    next: (data) => {
-      // Emits the data returned from the LinkedIN API 
-    },
-    error: (err) => {
-      // Emits the error returned from the LinkedIN API
-    },
-    complete: () => {
-      // Completed
-    }
-  });    
+public rawApiCall(){
+    const url = '/people/~?format=json';
+    this._linkedInService.raw(url)
+      .asObservable()
+        .subscribe({
+          next: (data) => {
+            console.log(data);
+          },
+          error: (err) => {
+            console.log(err);
+          },
+          complete: () => {
+            console.log('RAW API call completed');
+          }
+        });
 }
 ```
 

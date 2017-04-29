@@ -1,5 +1,5 @@
 {
-  "name": "angular-linkedin-api-wrapper",
+  "name": "angular2-linkedin-api-wrapper",
   "version": "0.1.0",
   "scripts": {
     "build": "ngc && cp README.MD dist/README.MD && cp package.json dist/package.json && cd dist && sed -i '' '/\"scripts\": {$/,/},$/d' package.json",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/evodeck/angular2-linkedin-api-wrapper"
+    "url": "https://github.com/evodeck/angular-linkedin-api-wrapper"
   },
   "author": {
     "name": "EVODECK SOFTWARE",

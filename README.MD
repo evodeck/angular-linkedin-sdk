@@ -1,6 +1,10 @@
 # angular-linkedin-api-wrapper
 
-An Angular wrapper for LinkedIN official API. To know more about the official documentation please visit [here](https://developer.linkedin.com/docs/getting-started-js-sdk).
+An Angular (Angular 2 & Angular 4) wrapper for LinkedIn official Javascript SDK. To know more about the official documentation please visit [here](https://developer.linkedin.com/docs/getting-started-js-sdk).
+
+All features of the original Javascript SDK are available through the service `LinkedInService`. The `IN.Event.on(..)` and `IN.Event.onOnce(...)` handler registration methods aren't exposed from original API, because you should subscribe to the `isInitialized$` and `isUserAuthenticated$` observables instead.
+
+> This library is published in an early state. The exposed interfaces might still be subject to change.
 
 # Demo
 
@@ -146,7 +150,7 @@ public subscribeToLogout(){
 ```
 
 ### rawApiCall
-Enables authenticated calls to the LinkedIn REST API using the generic call wrapper.
+Enables authenticated calls to the LinkedIn REST API using the generic call wrapper. The original fluent API is fully encapsulated.
 
 #### Parameters
 

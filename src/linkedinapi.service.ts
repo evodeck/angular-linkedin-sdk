@@ -62,6 +62,19 @@ export class LinkedInService {
             });
     }
 
+    public refresh() {
+        return this.isInitialized$
+            .switchMap(()=> {
+                return Observable.create(
+                    (observer: Observer<any>) => {
+                        this._window.IN.User.refresh((value : any) => {
+                            observer.next(value);
+                            observer.complete();
+                        });
+                    });
+            });
+    }
+
     /**
      * Enables authenticated calls to the LinkedIn REST API using the generic call wrapper.
      * @param url The API URL to invoke: should not include https://api.linkedin.com/v1.
@@ -77,7 +90,6 @@ export class LinkedInService {
     private _setDOM() {
         this._window['linkedInStateChangeRef'] = () => {
             this._updateInitializationState();
-            this.isUserAuthenticated$.next(this._getIsAuthorized());
         };
         let linkedInAPI = document.createElement('script');
         linkedInAPI.type = 'text/javascript';
@@ -97,6 +109,9 @@ export class LinkedInService {
     }
 
     private _updateInitializationState() {
-        this._zoneHelper.runZoneIfNotAlready(() => this._setInitializationStateSource());
+        this._zoneHelper.runZoneIfNotAlready(() => {
+            this._setInitializationStateSource();
+            this.isUserAuthenticated$.next(this._getIsAuthorized());
+        });
     }
 }

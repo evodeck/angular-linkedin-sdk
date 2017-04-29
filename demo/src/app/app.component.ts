@@ -12,14 +12,26 @@ import {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  public isLoggedIn;
+  public isUserAuthenticatedEmittedValue = false;
+  public isInitializedEmittedValue = false;
+  public isUserAuthenticated;
+  public isInitialized;
   public constructor(private _linkedInService: LinkedInService) {
   }
 
   ngOnInit() {
-    this._linkedInService.isLoggedIn$.subscribe({
+    this.isUserAuthenticated = this._linkedInService.isUserAuthenticated$;
+    this.isInitialized = this._linkedInService.isInitialized$;
+
+    this._linkedInService.isUserAuthenticated$.subscribe({
       next: (state) => {
-        this.isLoggedIn = state;
+        this.isUserAuthenticatedEmittedValue = true;
+      }
+    });
+
+    this._linkedInService.isInitialized$.subscribe({
+      next: (state) => {
+        this.isInitializedEmittedValue = true;
       }
     });
   }
@@ -28,6 +40,14 @@ export class AppComponent implements OnInit {
     this._linkedInService.login().subscribe({
       next: (state) => {
         console.log(`Login result: ${state}`);
+      }
+    });
+  }
+
+  public refresh() {
+    this._linkedInService.refresh().subscribe({
+      next: (value) => {
+        console.log(`Refresh result: ${value}`);
       }
     });
   }
@@ -61,6 +81,6 @@ export class AppComponent implements OnInit {
   }
 
   public logIsLogged() {
-    console.log(`Is logged: ${this.isLoggedIn}`);
+    console.log(`Is logged: ${this.isUserAuthenticated}`);
   }
 }

@@ -12,7 +12,7 @@ import { LinkedINApiModule } from '../../temp';
     LinkedINApiModule
   ],
   providers: [
-    { provide: 'apiKey', useValue: 'Your key' }
+    { provide: 'apiKey', useValue: '86b4pxhj2bvw8v' }
   ],
   bootstrap: [AppComponent]
 })

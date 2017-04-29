@@ -1,11 +1,45 @@
-<h1>
-  Linkedin API wrapper for Angular
-</h1>
-<div [hidden]="isLoggedIn || undefined">
-  <button (click)="login()">Login with LinkedIN</button>
+<div class="container">
+  <h1 class="mt-5">
+    Linkedin API wrapper for Angular
+  </h1>
+  <div class="row mt-5">
+    <div class="col">
+      <button class="btn btn-primary" [hidden]="isLoggedIn || undefined" (click)="login()">Login with LinkedIN</button>
+      <button class="btn btn-primary" (click)="logIsLogged()">Is logged?</button>
+      <button class="btn btn-primary" [hidden]="!isLoggedIn || undefined" (click)="logout()">Logout from LinkedIN</button>
+      <button class="btn btn-primary" (click)="rawApiCall()">Get data</button>
+      <button class="btn btn-primary" (click)="refresh()">Refresh</button>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col">
+      <h2>Observables</h2>
+      <ul class="list-group">
+        <li class="list-group-item justify-content-between">
+          <div>
+            isInitialzed$:
+          </div>
+          <div>
+            {{(isInitialized | async) === undefined ? 'undefined' : '' }}
+            {{isInitialized | async | json}}
+          </div>
+          <div>
+            <span *ngIf="isInitializedEmittedValue" class="badge badge-success">Emitted Value</span>
+          </div>
+        </li>
+        <li class="list-group-item justify-content-between">
+          <div>
+            isUserAuthenticated$:
+          </div>
+          <div>
+            {{(isUserAuthenticated | async) === undefined ? 'undefined' : '' }}
+            {{isUserAuthenticated | async | json}}
+          </div>
+          <div>
+            <span *ngIf="isUserAuthenticatedEmittedValue" class="badge badge-success">Emitted Value</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
-<button (click)="logIsLogged()">Is logged?</button>
-<div [hidden]="!isLoggedIn || undefined">
-  <button (click)="logout()">Logout from LinkedIN</button>
-</div>
-<button (click)="rawApiCall()">Get data</button>

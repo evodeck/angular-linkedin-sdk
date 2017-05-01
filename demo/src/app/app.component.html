@@ -4,9 +4,8 @@
   </h1>
   <div class="row mt-5">
     <div class="col">
-      <button class="btn btn-primary" [hidden]="isLoggedIn || undefined" (click)="login()">Login with LinkedIN</button>
-      <button class="btn btn-primary" (click)="logIsLogged()">Is logged?</button>
-      <button class="btn btn-primary" [hidden]="!isLoggedIn || undefined" (click)="logout()">Logout from LinkedIN</button>
+      <button class="btn btn-primary" [hidden]="isUserAuthenticated | async" (click)="login()">Login with LinkedIN</button>
+      <button class="btn btn-primary" [hidden]="!(isUserAuthenticated | async)" (click)="logout()">Logout from LinkedIN</button>
       <button class="btn btn-primary" (click)="rawApiCall()">Get data</button>
       <button class="btn btn-primary" (click)="refresh()">Refresh</button>
     </div>
@@ -15,31 +14,41 @@
     <div class="col">
       <h2>Observables</h2>
       <ul class="list-group">
-        <li class="list-group-item justify-content-between">
-          <div>
-            isInitialzed$:
-          </div>
-          <div>
-            {{(isInitialized | async) === undefined ? 'undefined' : '' }}
-            {{isInitialized | async | json}}
-          </div>
-          <div>
-            <span *ngIf="isInitializedEmittedValue" class="badge badge-success">Emitted Value</span>
+        <li class="list-group-item flex-column align-items-stretch">
+          <div class="row">
+            <div class="col">
+              isInitialzed$:
+            </div>
+            <div class="col">
+              {{(isInitialized | async) === undefined ? 'undefined' : '' }}
+              {{isInitialized | async | json}}
+            </div>
+            <div class="col">
+              <span *ngIf="isInitializedEmittedValue" class="badge badge-success float-right">Emitted Value</span>
+            </div>
           </div>
         </li>
-        <li class="list-group-item justify-content-between">
-          <div>
-            isUserAuthenticated$:
-          </div>
-          <div>
-            {{(isUserAuthenticated | async) === undefined ? 'undefined' : '' }}
-            {{isUserAuthenticated | async | json}}
-          </div>
-          <div>
-            <span *ngIf="isUserAuthenticatedEmittedValue" class="badge badge-success">Emitted Value</span>
+        <li class="list-group-item flex-column align-items-stretch">
+          <div class="row">
+            <div class="col">
+              isUserAuthenticated$:
+            </div>
+            <div class="col">
+              {{(isUserAuthenticated | async) === undefined ? 'undefined' : '' }}
+              {{isUserAuthenticated | async | json}}
+            </div>
+            <div class="col">
+              <span *ngIf="isUserAuthenticatedEmittedValue" class="badge badge-success float-right">Emitted Value</span>
+            </div>
           </div>
         </li>
       </ul>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col">
+      <h2>Last API (raw) response</h2>
+      <prettyjson [obj]="lastResponse"></prettyjson>
     </div>
   </div>
 </div>

@@ -4,36 +4,47 @@ An Angular (Angular 2 & Angular 4) wrapper for LinkedIn official Javascript SDK.
 
 All features of the original Javascript SDK are available through the service `LinkedInService`. The `IN.Event.on(..)` and `IN.Event.onOnce(...)` handler registration methods aren't exposed from original API, because you should subscribe to the `isInitialized$` and `isUserAuthenticated$` observables instead.
 
-> This library is published in an early state. The exposed interfaces might still be subject to change.
+> This library is published in an early state. The exposed interfaces might still be subject to change. Please don't expect a stable interface before version 0.2.x
 
-# Demo
+## Demo
 
 To try the out the demo project clone the repository and run
 ```bash
 $ npm install
 ```
 
+***Edit*** the demo/src/app/app.module.ts and paste you own LinkedIn API key
+
+```typescript
+{ provide: 'apiKey', useValue: 'YOUR_API_KEY' },
+```
+
 followed by
 ```bash
 $ npm run-script demo
 ```
-# Library
 
-* [Install](#installation)
-* [Consume](#consuming-the-library)
-* [API](#api)
-
-## Installation
-
-To install this library, run:
+## Install
 
 ```bash
 $ npm install angular-linkedin-api-wrapper
 ```
 
-## Consuming the library
+## ES2015 / UMD
 
-In your Angular `AppModule`:
+If your project is based on Angular CLI / WebPack everything will work as expected.
+
+> SystemJS / UMD support is not yet available, but planned for version 0.2.x
+
+## Angualar Universal
+
+Server side rendering is not supported, since the original LinkedIn Javascript SDK is using JSONP and can't run outside browser environments.
+
+> we are working on browser-agnostic support for the library. As mentioned it's not up to us, to support server side rendering, but in future release we will avoid initialization on non-browser plattforms to make the library invisible. Currently we unfortunately must expect, that the library will cause crashes in ANgular Universal environments, because of DOCUMENT and window object usage. 
+
+## Usage
+
+In the Angular `AppModule`:
 
 ```typescript
 import { BrowserModule } from '@angular/platform-browser';
@@ -41,7 +52,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 
 // Import the library
-import { LinkedINApiModule } from 'angular-linkedin-api-wrapper';
+import { LinkedInSdkModule } from 'angular-linkedin-api-wrapper';
 
 @NgModule({
   declarations: [
@@ -51,31 +62,32 @@ import { LinkedINApiModule } from 'angular-linkedin-api-wrapper';
     BrowserModule,
 
     // Specify your library as an import
-    LinkedINApiModule
+    LinkedInSdkModule
   ],
   providers: [
     // Inject apiKey and, optionally, authorize to integrate with LinkedIN official API
-    { provide: 'apiKey', useValue: 'Your API Key' },
+    { provide: 'apiKey', useValue: 'YOUR_API_KEY' },
     { provide: 'authorize', useValue: 'true/false' } // OPTIONAL by default: false
   ],
   bootstrap: [AppComponent]
 })
-export class YourModule { }
+export class AppModule { }
 ```
 
-Once your library is imported, you can use it in your Angular application:
+### LinkedInService
 
 ```typescript
 import {
     LinkedInService
 } from 'angular-linkedin-api-wrapper';
 
-export class YourComponent implements OnInit {
+export class AppComponent implements OnInit {
     public isUserAuthenticated;
     public constructor(private _linkedInService: LinkedInService) {
     }
 }    
 ```
+
 ## API
 
 * [isInitialized](#isInitialized)
@@ -175,6 +187,11 @@ public rawApiCall(){
         });
 }
 ```
+## Contribution
+
+We are always looking for quality contributions and will be happy to accept your Pull Requests. For now, please make sure your PR has accompanying tests and all the tests are passing.
+
+We will setup a CI system for the build very soon.
 
 ## License
 

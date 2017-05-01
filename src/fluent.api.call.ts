@@ -7,8 +7,9 @@ export class FluentApiCall {
     private _fluentCallbackStack : any[] = new Array();
 
     public constructor(private isLoadedObservable: Observable<boolean>,
-    private _window : any,
-    url : string) {
+        private _window : any,
+        url : string
+    ) {
         this._fluentCallbackStack.push((raw:any) => raw.IN.API.Raw(url));
     }
 

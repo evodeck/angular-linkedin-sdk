@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { PrettyJsonModule } from 'angular2-prettyjson';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { LinkedINApiModule } from '../../temp';
+import { LinkedInSdkModule } from '../../temp';
 
 @NgModule({
   declarations: [
@@ -9,10 +10,12 @@ import { LinkedINApiModule } from '../../temp';
   ],
   imports: [
     BrowserModule,
-    LinkedINApiModule
+    PrettyJsonModule,
+    LinkedInSdkModule
   ],
   providers: [
-    { provide: 'apiKey', useValue: '86b4pxhj2bvw8v' }
+    { provide: 'apiKey', useValue: 'YOUR_API_KEY' },
+    { provide: 'authorize', useValue: true}
   ],
   bootstrap: [AppComponent]
 })

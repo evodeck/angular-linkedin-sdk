@@ -16,6 +16,8 @@ export class AppComponent implements OnInit {
   public isInitializedEmittedValue = false;
   public isUserAuthenticated;
   public isInitialized;
+  public lastResponse;
+  
   public constructor(private _linkedInService: LinkedInService) {
   }
 
@@ -69,6 +71,7 @@ export class AppComponent implements OnInit {
     .asObservable()
     .subscribe({
       next: (data) => {
+        this.lastResponse = data;
         console.log(data);
       },
       error: (err) => {
@@ -78,9 +81,5 @@ export class AppComponent implements OnInit {
         console.log('RAW API call completed');
       }
     });
-  }
-
-  public logIsLogged() {
-    console.log(`Is logged: ${this.isUserAuthenticated}`);
   }
 }

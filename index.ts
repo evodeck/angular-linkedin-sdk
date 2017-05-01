@@ -1,2 +1,2 @@
-export * from './src/linkedinapi.service';
+export * from './src/linkedin.service';
 export * from './src/module';

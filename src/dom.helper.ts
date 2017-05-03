@@ -1,7 +1,11 @@
 import {
     Injectable,
     Inject,
+    PLATFORM_ID
 } from '@angular/core';
+import {
+    isPlatformBrowser
+} from '@angular/common';
 import {
     DOCUMENT
 } from '@angular/platform-browser';
@@ -14,11 +18,19 @@ export class DomHelper {
     public constructor(
         private _zoneHelper: ZoneHelper,
         @Inject(DOCUMENT) private _document: any,
-        @Inject('window') private _window: any
+        @Inject('window') private _window: any,
+        @Inject(PLATFORM_ID) private _platformId: Object
     ) {
     }
 
     public insertLinkedInScriptElement(initializationCallback: () => void, apiKey: string, authorize?: boolean) {
+        if (isPlatformBrowser(this._platformId)) {
+            this._initializeLibrary(initializationCallback);
+            this._writeToDOM(apiKey, authorize);
+        }
+    }
+
+    private _initializeLibrary(initializationCallback: () => void) {
         this._window['linkedInStateChangeRef'] = () => {
             this._zoneHelper.runZoneIfNotAlready(() => {
                 if (initializationCallback) {
@@ -26,6 +38,9 @@ export class DomHelper {
                 }
             });
         };
+    }
+
+    private _writeToDOM(apiKey: string, authorize: boolean) {
         let linkedInScriptElement = this._document.createElement('script');
         linkedInScriptElement.type = 'text/javascript';
         const linkedInAPISrc = '//platform.linkedin.com/in.js';

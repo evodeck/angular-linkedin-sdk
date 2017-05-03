@@ -1,4 +1,4 @@
-# angular-linkedin-api-wrapper
+# angular-linkedin-sdk
 
 An Angular (Angular 2 & Angular 4) wrapper for LinkedIn official Javascript SDK. To know more about the official documentation please visit [here](https://developer.linkedin.com/docs/getting-started-js-sdk).
 
@@ -27,7 +27,7 @@ $ npm run-script demo
 ## Install
 
 ```bash
-$ npm install angular-linkedin-api-wrapper
+$ npm install angular-linkedin-sdk
 ```
 
 ## ES2015 / UMD
@@ -52,7 +52,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 
 // Import the library
-import { LinkedInSdkModule } from 'angular-linkedin-api-wrapper';
+import { LinkedInSdkModule } from 'angular-linkedin-sdk';
 
 @NgModule({
   declarations: [
@@ -79,7 +79,7 @@ export class AppModule { }
 ```typescript
 import {
     LinkedInService
-} from 'angular-linkedin-api-wrapper';
+} from 'angular-linkedin-sdk';
 
 export class AppComponent implements OnInit {
     public isUserAuthenticated;

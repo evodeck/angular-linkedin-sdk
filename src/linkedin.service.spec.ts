@@ -148,7 +148,13 @@ describe('When using LinkedIn API Wrapper', () => {
         }
 
         class INStub {
-            public constructor(public User: UserStub) {
+            public constructor(public User: UserStub, public Event: EventStub) {
+            }
+        }
+
+        class EventStub {
+            public on(inStub: INStub, eventName: string, callback) {
+                // callback();
             }
         }
 
@@ -164,8 +170,10 @@ describe('When using LinkedIn API Wrapper', () => {
             public refresh() {
             }
         }
-
+        let inStub: INStub;
+        let windowStub: WindowStub;
         let userStub: UserStub;
+        let eventStub: EventStub;
         let subject: LinkedInService;
         let loadLibraryCallback: () => void;
 
@@ -175,8 +183,9 @@ describe('When using LinkedIn API Wrapper', () => {
                 loadLibraryCallback = callback;
             });
             userStub = new UserStub();
-            const inStub = new INStub(userStub);
-            const windowStub = new WindowStub(inStub);
+            eventStub = new EventStub();
+            inStub = new INStub(userStub, eventStub);
+            windowStub = new WindowStub(inStub);
             const apiKey = '';
             const authorize = false;
             subject = new LinkedInService(domHelperSpy, windowStub, apiKey, authorize);
@@ -205,6 +214,28 @@ describe('When using LinkedIn API Wrapper', () => {
                 });
                 expect(calledComplete).toBeTruthy();
             });
+
+            it('should emit the isUserAuthenticated$ state when the login callback is called', fakeAsync(() => {
+                let callbackToCall = () => { };
+                spyOn(eventStub, 'on').and.callFake((IN: any, eventName: string, callbackToCall) => {
+                    if (eventName === 'auth') {
+                        callbackToCall();
+                    }
+                });
+                subject.login().subscribe({
+                    complete: () => {
+                        callbackToCall();
+                    }
+                });
+                loadLibraryCallback();
+                let actual = undefined;
+                subject.isUserAuthenticated$.subscribe({
+                    next: (state) => {
+                        actual = <boolean>state;
+                    }
+                });
+                expect(actual).toBe(true);
+            }));
         });
 
         describe('And we observe the logged in state', () => {
@@ -229,7 +260,7 @@ describe('When using LinkedIn API Wrapper', () => {
                         actual = <boolean>state;
                     }
                 });
-                expect(actual).toBeFalsy();
+                expect(actual).toBe(false);
             }));
         });
 
@@ -256,16 +287,26 @@ describe('When using LinkedIn API Wrapper', () => {
                 expect(actual).toBeTruthy();
             }));
 
-            it('should emit the isUserAuthenticated$ state when the logout callback is called', fakeAsync(() => {
-                loadLibraryCallback();
-                let actual = false;
-                subject.logout().subscribe();
-                subject.isUserAuthenticated$.subscribe({
-                    next: () => {
-                        actual = true;
+            it('isUserAuthenticated$ should emit false when the logout callback is called', fakeAsync(() => {
+                let callbackToCall = () => { };
+                spyOn(eventStub, 'on').and.callFake((IN: any, eventName: string, callbackToCall) => {
+                    if (eventName === 'logout') {
+                        callbackToCall();
                     }
                 });
-                expect(actual).toBeTruthy();
+                subject.logout().subscribe({
+                    complete: () => {
+                        callbackToCall();
+                    }
+                });
+                loadLibraryCallback();
+                let actual = undefined;
+                subject.isUserAuthenticated$.subscribe({
+                    next: (state) => {
+                        actual = <boolean>state;
+                    }
+                });
+                expect(actual).toBe(false);
             }));
         });
 

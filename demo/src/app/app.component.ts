@@ -17,7 +17,8 @@ export class AppComponent implements OnInit {
   public isUserAuthenticated;
   public isInitialized;
   public lastResponse;
-  
+  public apiKey;
+
   public constructor(private _linkedInService: LinkedInService) {
   }
 
@@ -65,21 +66,25 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public rawApiCall(){
+  public rawApiCall() {
     const url = '/people/~?format=json';
     this._linkedInService.raw(url)
-    .asObservable()
-    .subscribe({
-      next: (data) => {
-        this.lastResponse = data;
-        console.log(data);
-      },
-      error: (err) => {
-        console.log(err);
-      },
-      complete: () => {
-        console.log('RAW API call completed');
-      }
-    });
+      .asObservable()
+      .subscribe({
+        next: (data) => {
+          this.lastResponse = data;
+          console.log(data);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+        complete: () => {
+          console.log('RAW API call completed');
+        }
+      });
+  }
+
+  public getApiKeyFromSdkIN() {
+    this.apiKey = this._linkedInService.getSdkIN().ENV.auth.api_key;
   }
 }

@@ -28,6 +28,7 @@ export class LinkedInService {
      */
     public isUserAuthenticated$: BehaviorSubject<boolean>;
 
+    private _sdkIN: any = undefined;
     private _initializationStateSource: AsyncSubject<boolean>;
     private _authorize: boolean;
 
@@ -46,6 +47,13 @@ export class LinkedInService {
     }
 
     /**
+     * Gets the IN variable from the LinkedIN SDK.
+     */
+    public getSdkIN(): any {
+        return this._sdkIN;
+    }
+
+    /**
      * Log a member in. If the user is not logged in,
      * it will present the popup authorization window.
      */
@@ -55,9 +63,7 @@ export class LinkedInService {
                 return Observable.create(
                     (observer: Observer<boolean>) => {
                         this._window.IN.User.authorize(() => {
-                            const isLoggedIn = this._getIsAuthorized();
-                            observer.next(isLoggedIn);
-                            this.isUserAuthenticated$.next(isLoggedIn);
+                            observer.next(true);
                             observer.complete();
                         });
                     });
@@ -76,7 +82,6 @@ export class LinkedInService {
                     (observer: Observer<void>) => {
                         this._window.IN.User.logout(() => {
                             observer.next(undefined);
-                            this.isUserAuthenticated$.next(this._getIsAuthorized());
                             observer.complete();
                         });
                     });
@@ -94,7 +99,6 @@ export class LinkedInService {
                 return Observable.create(
                     (observer: Observer<any>) => {
                         this._window.IN.User.refresh();
-
                         observer.next(undefined);
                         observer.complete();
                     });
@@ -116,7 +120,23 @@ export class LinkedInService {
     private _onLibraryLoadedAndInitialized() {
         this._initializationStateSource.next(true);
         this._initializationStateSource.complete();
-
         this.isUserAuthenticated$.next(this._getIsAuthorized());
+        this._setEventsOn();
+        this._sdkIN = this._window.IN;
+    }
+
+    private _setEventsOn() {
+        this._window.IN.Event.on(
+            this._window.IN,
+            'auth',
+            () => {
+                this.isUserAuthenticated$.next(true);
+            });
+        this._window.IN.Event.on(
+            this._window.IN,
+            'logout',
+            () => {
+                this.isUserAuthenticated$.next(false);
+            });
     }
 }

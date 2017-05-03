@@ -33,6 +33,8 @@ describe('When using DomHelper', () => {
     }
 
     beforeEach(() => {
+        // PLATFORM_ID values https://github.com/angular/angular/blob/master/packages/common/src/platform_id.ts
+        const platformId = 'browser';
         callIsInZoneHelper = false;
         window = new Object();
         document = new DocumentMock();
@@ -40,7 +42,7 @@ describe('When using DomHelper', () => {
         zoneHelperSpy.runZoneIfNotAlready.and.callFake((callback) => {
             callback();
         });
-        subject = new DomHelper(zoneHelperSpy, document, window);
+        subject = new DomHelper(zoneHelperSpy, document, window, platformId);
     });
 
     describe('to write to the DOM', () => {

@@ -1,6 +1,6 @@
 {
-  "name": "angular-linkedin-api-wrapper",
-  "version": "0.1.2",
+  "name": "angular-linkedin-sdk",
+  "version": "0.1.3",
   "scripts": {
     "replace": "replace '\"scripts\"(.|\\n)*?}\\,' '' package.json",
     "copy": "ncp README.MD dist/README.MD && ncp package.json dist/package.json && cd dist && npm run-script replace",
@@ -14,7 +14,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/evodeck/angular-linkedin-api-wrapper"
+    "url": "https://github.com/evodeck/angular-linkedin-sdk"
   },
   "author": {
     "name": "EVODECK SOFTWARE",
@@ -49,7 +49,7 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/evodeck/angular-linkedin-api-wrapper/issues"
+    "url": "https://github.com/evodeck/angular-linkedin-sdk/issues"
   },
   "main": "./index.js",
   "dependencies": {},

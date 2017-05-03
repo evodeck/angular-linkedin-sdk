@@ -2,171 +2,167 @@ import {
     DomHelper
 } from './dom.helper';
 
-describe('DomHelper', () => {
+describe('When using DomHelper', () => {
     let callIsInZoneHelper: boolean;
-
-    let window : any;
-    let document : any;
-    let zoneHelper : any;
-
-    let subject : DomHelper;
-
+    let window: any;
+    let document: any;
+    let zoneHelperSpy: any;
+    let subject: DomHelper;
 
     class ElementMock {
-        public src : string;
-
-        public type : string;
-
-        public innerHTML : string;
+        public src: string;
+        public type: string;
+        public innerHTML: string;
     }
 
-    class DocumentHeadMock{
-        public appendChild(element : ElementMock){
-            
+    class DocumentHeadMock {
+        public appendChild(element: ElementMock) {
         }
     }
 
-    class DocumentMock{
-        constructor(){
+    class DocumentMock {
+        public head: DocumentHeadMock;
+
+        public constructor() {
             this.head = new DocumentHeadMock();
         }
 
-        public createElement(name:string){
+        public createElement(name: string) {
             return new ElementMock();
         }
-
-        public head : DocumentHeadMock;
     }
-    
-    beforeEach(()=>{
-        callIsInZoneHelper = false;
 
+    beforeEach(() => {
+        callIsInZoneHelper = false;
         window = new Object();
         document = new DocumentMock();
-
-        document.createElement('scripts');
-
-        zoneHelper = jasmine.createSpyObj('zoneHelper', ['runZoneIfNotAlready']);
-        zoneHelper.runZoneIfNotAlready.and.callFake((callback)=>{
-            callIsInZoneHelper = true;
+        zoneHelperSpy = jasmine.createSpyObj('zoneHelper', ['runZoneIfNotAlready']);
+        zoneHelperSpy.runZoneIfNotAlready.and.callFake((callback) => {
             callback();
-            callIsInZoneHelper = false;
         });
-
-        subject = new DomHelper(zoneHelper, document, window);
+        subject = new DomHelper(zoneHelperSpy, document, window);
     });
 
-
-    describe('call insertLinkedInScriptElement(...)', () => {
-        it('linkedInStateChangeRef callback should be defined', () => {
-            subject.insertLinkedInScriptElement(() => {}, '', true);
-
+    describe('to write to the DOM', () => {
+        it('the initialization callback should be defined', () => {
+            const initializationCallback = () => { };
+            const apiKey = '';
+            const authorize = true;
+            subject.insertLinkedInScriptElement(initializationCallback, apiKey, authorize);
             expect(window['linkedInStateChangeRef']).toBeDefined();
         });
 
-        it('zoneHelper.runZoneIfNotAlready should be called when calling linkedInStateChangeRef callback', () => {
-            subject.insertLinkedInScriptElement(() => {}, '', true);
-
+        it('zoneHelper should be called when calling the initialization callback', () => {
+            const initializationCallback = () => { };
+            const apiKey = '';
+            const authorize = true;
+            subject.insertLinkedInScriptElement(initializationCallback, apiKey, authorize);
             window['linkedInStateChangeRef']();
-
-            expect(zoneHelper.runZoneIfNotAlready).toHaveBeenCalled();
+            expect(zoneHelperSpy.runZoneIfNotAlready).toHaveBeenCalled();
         });
 
-        it('initializationCallback should not be called unless calling linkedInStateChangeRef callback', () => {
+        it('the initialization callback should not be called unless the library loads', () => {
             let initializationCallbackCalled = false;
-            subject.insertLinkedInScriptElement(() => {initializationCallbackCalled}, '', true);
-
+            const initializationCallback = () => {
+                initializationCallbackCalled = true;
+            };
+            const apiKey = '';
+            const authorize = true;
+            subject.insertLinkedInScriptElement(initializationCallback, apiKey, authorize);
             expect(initializationCallbackCalled).toBeFalsy();
         });
 
-        it('should not throw exception when calling linkedInStateChangeRef callback without defined initializationCallback', () => {
-            subject.insertLinkedInScriptElement(undefined, '', true);
-            
+        it('should not throw exception when the library loads without initialization callback', () => {
+            const initializationCallback = undefined;
+            const apiKey = '';
+            const authorize = true;
+            subject.insertLinkedInScriptElement(initializationCallback, apiKey, authorize);
             expect(() => window['linkedInStateChangeRef']()).not.toThrow();
         });
 
-        it('initializationCallback should be called when calling linkedInStateChangeRef callback', () => {
+        it('initialization callback should be called when the library loads', () => {
             let initializationCallbackCalled = false;
-            subject.insertLinkedInScriptElement(() => {initializationCallbackCalled}, '', true);
-
+            const initializationCallback = () => {
+                initializationCallbackCalled = true;
+            };
+            const apiKey = '';
+            const authorize = true;
+            subject.insertLinkedInScriptElement(initializationCallback, apiKey, authorize);
             window['linkedInStateChangeRef']();
-
-            expect(initializationCallbackCalled).toBeFalsy();
+            expect(initializationCallbackCalled).toBeTruthy();
         });
 
-        it('initializationCallback should be called within zoneHelper when calling linkedInStateChangeRef callback', () => {
-            subject.insertLinkedInScriptElement(() => {expect(callIsInZoneHelper).toBeTruthy();}, '', true);
-
+        it('initialization callback should be called within zoneHelper when the library loads', () => {
+            const initializationCallback = () => {
+                callIsInZoneHelper = true;
+            };
+            const apiKey = '';
+            const authorize = true;
+            subject.insertLinkedInScriptElement(initializationCallback, apiKey, authorize);
             window['linkedInStateChangeRef']();
+            expect(callIsInZoneHelper).toBeTruthy();
         });
 
-        it('createElement should be called', () => {
-            let createElementSpy = spyOn(document, 'createElement').and.callThrough();
-
-            subject.insertLinkedInScriptElement(() => {}, '', true);
-
+        it('document should create a script element', () => {
+            const createElementSpy = spyOn(document, 'createElement').and.callThrough();
+            const initializationCallback = () => { };
+            const apiKey = '';
+            const authorize = true;
+            subject.insertLinkedInScriptElement(initializationCallback, apiKey, authorize);
             expect(createElementSpy).toHaveBeenCalledWith('script');
         });
 
-        it('appendChild should be called', () => {
-            let appendChildSpy = spyOn(document.head, 'appendChild').and.callThrough();
-
-            subject.insertLinkedInScriptElement(() => {}, '', true);
-
+        it('document head appendChild should be called', () => {
+            const appendChildSpy = spyOn(document.head, 'appendChild').and.callThrough();
+            const initializationCallback = () => { };
+            const apiKey = '';
+            const authorize = true;
+            subject.insertLinkedInScriptElement(initializationCallback, apiKey, authorize);
             expect(appendChildSpy).toHaveBeenCalled();
         });
 
-        it('appendChild should be called with script element referencing linkedIn SDK library', () => {
-            let element : ElementMock;
-            let appendChildSpy = spyOn(document.head, 'appendChild').and.callFake((paramElement)=>{
+        it('document head appendChild should be called with script element referencing linkedIn SDK library', () => {
+            let element: ElementMock = undefined;
+            spyOn(document.head, 'appendChild').and.callFake((paramElement) => {
                 element = paramElement;
             });
-
-            subject.insertLinkedInScriptElement(() => {}, '', true);
-
-            expect(element.src).toContain('//platform.linkedin.com/in.js');
+            const initializationCallback = () => { };
+            const apiKey = '';
+            const authorize = true;
+            subject.insertLinkedInScriptElement(initializationCallback, apiKey, authorize);
+            const scriptElementLibrary = '//platform.linkedin.com/in.js';
+            expect(element.src).toContain(scriptElementLibrary);
         });
 
-        it('appendChild should be called with script element referencing linkedIn SDK library', () => {
-            let element : ElementMock;
-            let appendChildSpy = spyOn(document.head, 'appendChild').and.callFake((paramElement)=>{
-                element = paramElement;
-            });
-
-            subject.insertLinkedInScriptElement(() => {}, '', true);
-
-            expect(element.src).toContain('//platform.linkedin.com/in.js');
-        });
-
-        describe('testing authorize parameter', () => {
+        describe('the authorize parameter', () => {
             [true, false]
                 .forEach((authorize) => {
                     it(`should contain authorize value to ${authorize}`, () => {
-                        let element : ElementMock;
-                        let appendChildSpy = spyOn(document.head, 'appendChild').and.callFake((paramElement)=>{
+                        let element: ElementMock = undefined;
+                        spyOn(document.head, 'appendChild').and.callFake((paramElement) => {
                             element = paramElement;
                         });
                         const expectedAuthorizeValue = `\nauthorize: ${authorize}\n`;
-
-                        subject.insertLinkedInScriptElement(() => {}, '', authorize);
-
+                        const initializationCallback = () => { };
+                        const apiKey = '';
+                        subject.insertLinkedInScriptElement(initializationCallback, apiKey, authorize);
                         expect(element.innerHTML).toMatch(expectedAuthorizeValue);
                     });
                 });
         });
 
-        describe('testing api keys', () => {
-            ['xyz', 'abc', '123', '123abc'] // valid API Keys
+        describe('the API key', () => {
+            ['xyz', 'abc', '123', '123abc'] // API Keys
                 .forEach((apiKey) => {
                     it(`should contain API key ${apiKey}`, () => {
-                        let element : ElementMock;
-                        let appendChildSpy = spyOn(document.head, 'appendChild').and.callFake((paramElement)=>{
+                        let element: ElementMock = undefined;
+                        spyOn(document.head, 'appendChild').and.callFake((paramElement) => {
                             element = paramElement;
                         });
                         const expectedApiKey = `\napi_key: ${apiKey}\n`;
-
-                        subject.insertLinkedInScriptElement(() => {}, expectedApiKey, true);
-
+                        const initializationCallback = () => { };
+                        const authorize = true;
+                        subject.insertLinkedInScriptElement(initializationCallback, expectedApiKey, authorize);
                         expect(element.innerHTML).toMatch(expectedApiKey);
                     });
                 });

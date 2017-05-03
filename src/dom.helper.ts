@@ -1,10 +1,13 @@
 import {
     Injectable,
     Inject,
-    Optional
 } from '@angular/core';
-import { DOCUMENT } from '@angular/platform-browser';
-import { ZoneHelper } from './zone.helper';
+import {
+    DOCUMENT
+} from '@angular/platform-browser';
+import {
+    ZoneHelper
+} from './zone.helper';
 
 @Injectable()
 export class DomHelper {
@@ -15,15 +18,14 @@ export class DomHelper {
     ) {
     }
 
-    public insertLinkedInScriptElement(initializationCallback:() => void, apiKey:string,  authorize?: boolean){
+    public insertLinkedInScriptElement(initializationCallback: () => void, apiKey: string, authorize?: boolean) {
         this._window['linkedInStateChangeRef'] = () => {
             this._zoneHelper.runZoneIfNotAlready(() => {
-                if(initializationCallback){
+                if (initializationCallback) {
                     initializationCallback();
                 }
             });
         };
-
         let linkedInScriptElement = this._document.createElement('script');
         linkedInScriptElement.type = 'text/javascript';
         const linkedInAPISrc = '//platform.linkedin.com/in.js';

@@ -36,11 +36,11 @@ If your project is based on Angular CLI / WebPack everything will work as expect
 
 > SystemJS / UMD support is not yet available, but planned for version 0.2.x
 
-## Angualar Universal
+## Angular Universal
 
 Server side rendering is not supported, since the original LinkedIn Javascript SDK is using JSONP and can't run outside browser environments.
 
-> we are working on browser-agnostic support for the library. As mentioned it's not up to us, to support server side rendering, but in future release we will avoid initialization on non-browser plattforms to make the library invisible. Currently we unfortunately must expect, that the library will cause crashes in ANgular Universal environments, because of DOCUMENT and window object usage. 
+> We are working on browser-agnostic support for the library. As mentioned it's not up to us to support server side rendering, but in future release we will avoid initialization on non-browser plattforms to make the library invisible. Unfortunately you must expect that the library will cause crashes in Angular Universal environments because of DOCUMENT and window object usage. 
 
 ## Usage
 
@@ -94,7 +94,8 @@ export class AppComponent implements OnInit {
 * [isUserAuthenticated](#isUserAuthenticated)
 * [login](#login)
 * [logout](#logout)
-* [raw](#rawapicall)
+* [raw](#raw)
+* [refresh](#refresh)
 
 ### isInitialized
 An observable that emits true and completes when library has finished loading.
@@ -113,7 +114,7 @@ public subscribeToisInitialized(){
 }
 ```
 ### isUserAuthenticated
-An observable that has an initial value of undefined. It emits a boolean value when the library has finished loading and when a login is performed.
+An observable that has an initial value of undefined. It emits a boolean value when the library has finished loading and when a login or logout is performed.
 
 #### Example
 ```typescript
@@ -161,7 +162,7 @@ public subscribeToLogout(){
 }
 ```
 
-### rawApiCall
+### raw
 Enables authenticated calls to the LinkedIn REST API using the generic call wrapper. The original fluent API is fully encapsulated.
 
 #### Parameters
@@ -186,6 +187,23 @@ public rawApiCall(){
           }
         });
 }
+```
+
+### refresh
+Refreshes a member token for an additional 30 minutes. Repeated continual use of the refresh() function to keep a member indefinitely logged in can result in your application being disabled.  Use this call sparingly.
+
+#### Example
+```typescript
+public refresh() {
+    this._linkedInService.refresh().subscribe({
+      next: (value) => {
+        console.log(`Refresh result: ${value}`);
+      },
+      complete: () => {
+        console.log('Refresh call completed');
+      }
+    });
+  }
 ```
 ## Contribution
 

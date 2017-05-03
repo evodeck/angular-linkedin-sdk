@@ -1,4 +1,6 @@
-import { Observable } from 'rxjs';
+import {
+    Observable
+} from 'rxjs';
 import {
     LinkedInService
 } from './linkedin.service';
@@ -12,17 +14,18 @@ import {
     fakeAsync
 } from '@angular/core/testing';
 
-
 describe('When using LinkedIn API Wrapper', () => {
 
     // Tests with dummy dependencies
     describe('', () => {
-        let domHelperMock: DomHelper;
-        let subject : LinkedInService;
+        let subject: LinkedInService;
 
-        beforeEach(()=>{
-            domHelperMock = jasmine.createSpyObj<DomHelper>("domHelperMock", ["insertLinkedInScriptElement"]);
-            subject = new LinkedInService(domHelperMock, new Object(), "", false);
+        beforeEach(() => {
+            const domHelperDummy = jasmine.createSpyObj<DomHelper>("domHelperDummy", ["insertLinkedInScriptElement"]);
+            const windowDummy = new Object();
+            const apiKey = '';
+            const authorize = false;
+            subject = new LinkedInService(domHelperDummy, windowDummy, apiKey, authorize);
         });
 
         describe('And we make a RAW API call', () => {
@@ -42,7 +45,6 @@ describe('When using LinkedIn API Wrapper', () => {
         describe('And LinkedIN API is not loaded', () => {
 
             describe('And we perform login', () => {
-
                 it('should not emit', fakeAsync(() => {
                     let actual = false;
                     subject.login().subscribe({
@@ -77,7 +79,6 @@ describe('When using LinkedIn API Wrapper', () => {
             });
 
             describe('And we perform logout', () => {
-
                 it('should not emit from the callback of the LinkedIN API', fakeAsync(() => {
                     let actual = false;
                     subject.logout().subscribe({
@@ -109,10 +110,36 @@ describe('When using LinkedIn API Wrapper', () => {
                     expect(actual).toEqual(undefined);
                 }));
             });
+
+            describe('And we refresh a user session', () => {
+                it('should return an observable', () => {
+                    let result = subject.refresh();
+                    expect(result instanceof Observable).toBeTruthy();
+                });
+
+                it('should not emit', fakeAsync(() => {
+                    let actual = false;
+                    subject.refresh().subscribe({
+                        next: () => {
+                            actual = true;
+                        }
+                    });
+                    expect(actual).toBe(false);
+                }));
+
+                it('should not complete', fakeAsync(() => {
+                    let actual = false;
+                    subject.refresh().subscribe({
+                        complete: () => {
+                            actual = true;
+                        }
+                    });
+                    expect(actual).toBe(false);
+                }));
+            });
         });
     });
 
-    
     describe('And LinkedIN API is loaded', () => {
 
         class WindowStub {
@@ -127,49 +154,38 @@ describe('When using LinkedIn API Wrapper', () => {
 
         class UserStub {
             public authorize(callback) {
-                
+                callback();
             }
             public logout(callback) {
-                
+                callback();
             }
             public isAuthorized() {
-                
             }
             public refresh() {
-
             }
         }
 
-        let inStub : INStub;
-        let userStub : UserStub;
-        let windowStub : WindowStub;
+        let userStub: UserStub;
+        let subject: LinkedInService;
+        let loadLibraryCallback: () => void;
 
-        let domHelperMock: DomHelper;
-        let subject : LinkedInService;
-
-        let initCallback : () => void;
-
-        beforeEach(()=>{
-            domHelperMock = jasmine.createSpyObj<DomHelper>("domHelperMock", ["insertLinkedInScriptElement"]);
-            (<jasmine.Spy> domHelperMock.insertLinkedInScriptElement).and.callFake((callback)=> initCallback = callback);
-            
-            userStub = jasmine.createSpyObj<UserStub>("userStub", ["authorize", "logout", "isAuthorized", "refresh"]);
-            (<jasmine.Spy> userStub.authorize).and.callFake((callback)=>callback());
-            (<jasmine.Spy> userStub.logout).and.callFake((callback)=>callback());
-
-            inStub = new INStub(userStub);
-            windowStub = new WindowStub(inStub);
-            subject = new LinkedInService(domHelperMock, windowStub, "", false);
+        beforeEach(() => {
+            const domHelperSpy = jasmine.createSpyObj<DomHelper>("domHelperSpy", ["insertLinkedInScriptElement"]);
+            (<jasmine.Spy>domHelperSpy.insertLinkedInScriptElement).and.callFake((callback) => {
+                loadLibraryCallback = callback;
+            });
+            userStub = new UserStub();
+            const inStub = new INStub(userStub);
+            const windowStub = new WindowStub(inStub);
+            const apiKey = '';
+            const authorize = false;
+            subject = new LinkedInService(domHelperSpy, windowStub, apiKey, authorize);
         });
 
-
-        
         describe('And we perform login', () => {
-
             it('should emit true', () => {
-                (<jasmine.Spy> userStub.isAuthorized).and.returnValue(true);
-                initCallback();
-
+                spyOn(userStub, 'isAuthorized').and.returnValue(true);
+                loadLibraryCallback();
                 let actual = false;
                 subject.login().subscribe({
                     next: (state) => {
@@ -180,8 +196,7 @@ describe('When using LinkedIn API Wrapper', () => {
             });
 
             it('should complete', () => {
-                initCallback();
-
+                loadLibraryCallback();
                 let calledComplete = false;
                 subject.login().subscribe({
                     complete: () => {
@@ -194,9 +209,8 @@ describe('When using LinkedIn API Wrapper', () => {
 
         describe('And we observe the logged in state', () => {
             it('should emit true when the user is logged in', fakeAsync(() => {
-                (<jasmine.Spy> userStub.isAuthorized).and.returnValue(true);
-                initCallback();
-
+                spyOn(userStub, 'isAuthorized').and.returnValue(true);
+                loadLibraryCallback();
                 let actual = undefined;
                 subject.isUserAuthenticated$.subscribe({
                     next: (state) => {
@@ -207,25 +221,21 @@ describe('When using LinkedIn API Wrapper', () => {
             }));
 
             it('should emit false when the user is not logged in', fakeAsync(() => {
-                (<jasmine.Spy> userStub.isAuthorized).and.returnValue(false);
-                initCallback();
-
+                spyOn(userStub, 'isAuthorized').and.returnValue(false);
+                loadLibraryCallback();
                 let actual = undefined;
                 subject.isUserAuthenticated$.subscribe({
                     next: (state) => {
                         actual = <boolean>state;
                     }
                 });
-                
                 expect(actual).toBeFalsy();
             }));
         });
 
         describe('And we perform logout', () => {
-
             it('should emit when the logout callback is called', fakeAsync(() => {
-                initCallback();
-
+                loadLibraryCallback();
                 let actual = false;
                 subject.logout().subscribe({
                     next: () => {
@@ -237,8 +247,7 @@ describe('When using LinkedIn API Wrapper', () => {
 
             it('should complete when the logout callback is called', fakeAsync(() => {
                 let actual = false;
-                initCallback();
-
+                loadLibraryCallback();
                 subject.logout().subscribe({
                     complete: () => {
                         actual = true;
@@ -248,8 +257,7 @@ describe('When using LinkedIn API Wrapper', () => {
             }));
 
             it('should emit the isUserAuthenticated$ state when the logout callback is called', fakeAsync(() => {
-                initCallback();
-
+                loadLibraryCallback();
                 let actual = false;
                 subject.logout().subscribe();
                 subject.isUserAuthenticated$.subscribe({
@@ -260,20 +268,15 @@ describe('When using LinkedIn API Wrapper', () => {
                 expect(actual).toBeTruthy();
             }));
         });
-        describe('when calling refresh()', ()=>{
-            it('should return observable', ()=>{
+
+        describe('And we refresh a user session', () => {
+            it('should return an observable', () => {
                 let result = subject.refresh();
                 expect(result instanceof Observable).toBeTruthy();
             });
 
-            it('should return observable', ()=>{
-                let result = subject.refresh();
-                expect(result instanceof Observable).toBeTruthy();
-            });
-
-            it('should always emit next', fakeAsync(() => {
-                initCallback();
-
+            it('should emit', fakeAsync(() => {
+                loadLibraryCallback();
                 let actual = false;
                 subject.refresh().subscribe({
                     next: () => {
@@ -283,10 +286,9 @@ describe('When using LinkedIn API Wrapper', () => {
                 expect(actual).toBeTruthy();
             }));
 
-            it('should always complete', fakeAsync(() => {
+            it('should complete', fakeAsync(() => {
                 let actual = false;
-                initCallback();
-
+                loadLibraryCallback();
                 subject.refresh().subscribe({
                     complete: () => {
                         actual = true;

@@ -9,18 +9,27 @@ import {
     Observable,
     Observer
 } from 'rxjs';
-import { DomHelper } from './dom.helper';
-import { FluentApiCall } from './fluent.api.call';
-
+import {
+    DomHelper
+} from './dom.helper';
+import {
+    FluentApiCall
+} from './fluent.api.call';
 
 @Injectable()
 export class LinkedInService {
+    /**
+     * An observable that emits true and completes when library has finished loading.
+     */
     public isInitialized$: Observable<boolean>;
+    /**
+     * An observable that has an initial value of undefined.
+     * It emits a boolean value when the library has finished loading and when a login or logout is performed.
+     */
     public isUserAuthenticated$: BehaviorSubject<boolean>;
 
     private _initializationStateSource: AsyncSubject<boolean>;
-
-    private _authorize : boolean;
+    private _authorize: boolean;
 
     public constructor(
         private _domHelper: DomHelper,
@@ -32,11 +41,14 @@ export class LinkedInService {
         this._initializationStateSource = new AsyncSubject<boolean>();
         this.isInitialized$ = this._initializationStateSource.asObservable();
         this.isUserAuthenticated$ = new BehaviorSubject(undefined);
-
         // Load Linkedin SDK once the service is provided
         this._domHelper.insertLinkedInScriptElement(() => this._onLibraryLoadedAndInitialized(), this._apiKey, this._authorize);
     }
 
+    /**
+     * Log a member in. If the user is not logged in,
+     * it will present the popup authorization window.
+     */
     public login() {
         return this.isInitialized$
             .switchMap(() => {
@@ -52,6 +64,11 @@ export class LinkedInService {
             });
     }
 
+    /**
+     * Log a member out. Logging the member out is defined as logging them out of
+     * the LinkedIn network (i.e. clearing cookies). This does not revoke or
+     * delete the user's authorization grant for your application.
+     */
     public logout() {
         return this.isInitialized$
             .switchMap(() => {
@@ -66,17 +83,22 @@ export class LinkedInService {
             });
     }
 
+    /**
+     * Refreshes a member token for an additional 30 minutes.
+     * Repeated continual use of the refresh() function to keep a member indefinitely
+     * logged in can result in your application being disabled.  Use this call sparingly.
+     */
     public refresh() {
         return this.isInitialized$
-            .switchMap(()=> {
+            .switchMap(() => {
                 return Observable.create(
                     (observer: Observer<any>) => {
                         this._window.IN.User.refresh();
-                        
+
                         observer.next(undefined);
                         observer.complete();
-                        });
                     });
+            });
     }
 
     /**

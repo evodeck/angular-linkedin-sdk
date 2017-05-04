@@ -15,13 +15,12 @@ import {
 } from '@angular/core/testing';
 
 describe('When using LinkedIn API Wrapper', () => {
-
     // Tests with dummy dependencies
     describe('', () => {
         let subject: LinkedInService;
 
         beforeEach(() => {
-            const domHelperDummy = jasmine.createSpyObj<DomHelper>("domHelperDummy", ["insertLinkedInScriptElement"]);
+            const domHelperDummy = jasmine.createSpyObj<DomHelper>('domHelperDummy', ['insertLinkedInScriptElement']);
             const windowDummy = new Object();
             const apiKey = '';
             const authorize = false;
@@ -36,10 +35,10 @@ describe('When using LinkedIn API Wrapper', () => {
                 expect(fluentApiCall instanceof FluentApiCall).toBeTruthy();
             });
 
-            // TODO testing if constructor of FluentApiCall gets calles -> but seems not easily possible
+            // TODO testing if constructor of FluentApiCall gets calls -> but seems not easily possible
             // since let constructorSpy = spyOn(FluentApiCall.prototype, 'constructor').and.callThrough();
             // let fluentApiCall = sut.raw();
-            // expect(fluentApiCall.constructor).toHaveBeenCalled(); doesnt works as expected
+            // expect(fluentApiCall.constructor).toHaveBeenCalled(); does not work as expected
         });
 
         describe('And LinkedIN API is not loaded', () => {
@@ -137,6 +136,13 @@ describe('When using LinkedIn API Wrapper', () => {
                     expect(actual).toBe(false);
                 }));
             });
+
+            describe('And we request SDK IN', () => {
+                it('should return undefined', () => {
+                    const actual = subject.getSdkIN();
+                    expect(actual).toBe(undefined);
+                });
+            });
         });
     });
 
@@ -154,7 +160,6 @@ describe('When using LinkedIn API Wrapper', () => {
 
         class EventStub {
             public on(inStub: INStub, eventName: string, callback) {
-                // callback();
             }
         }
 
@@ -170,6 +175,7 @@ describe('When using LinkedIn API Wrapper', () => {
             public refresh() {
             }
         }
+
         let inStub: INStub;
         let windowStub: WindowStub;
         let userStub: UserStub;
@@ -178,7 +184,7 @@ describe('When using LinkedIn API Wrapper', () => {
         let loadLibraryCallback: () => void;
 
         beforeEach(() => {
-            const domHelperSpy = jasmine.createSpyObj<DomHelper>("domHelperSpy", ["insertLinkedInScriptElement"]);
+            const domHelperSpy = jasmine.createSpyObj<DomHelper>('domHelperSpy', ['insertLinkedInScriptElement']);
             (<jasmine.Spy>domHelperSpy.insertLinkedInScriptElement).and.callFake((callback) => {
                 loadLibraryCallback = callback;
             });
@@ -215,20 +221,18 @@ describe('When using LinkedIn API Wrapper', () => {
                 expect(calledComplete).toBeTruthy();
             });
 
-            it('should emit the isUserAuthenticated$ state when the login callback is called', fakeAsync(() => {
-                let callbackToCall = () => { };
-                spyOn(eventStub, 'on').and.callFake((IN: any, eventName: string, callbackToCall) => {
+            it('should emit true from isUserAuthenticated$', fakeAsync(() => {
+                let actual = undefined;
+                spyOn(eventStub, 'on').and.callFake((IN: any, eventName: string, callback) => {
                     if (eventName === 'auth') {
-                        callbackToCall();
-                    }
-                });
-                subject.login().subscribe({
-                    complete: () => {
-                        callbackToCall();
+                        subject.login().subscribe({
+                            complete: () => {
+                                callback();
+                            }
+                        });
                     }
                 });
                 loadLibraryCallback();
-                let actual = undefined;
                 subject.isUserAuthenticated$.subscribe({
                     next: (state) => {
                         actual = <boolean>state;
@@ -287,20 +291,18 @@ describe('When using LinkedIn API Wrapper', () => {
                 expect(actual).toBeTruthy();
             }));
 
-            it('isUserAuthenticated$ should emit false when the logout callback is called', fakeAsync(() => {
-                let callbackToCall = () => { };
-                spyOn(eventStub, 'on').and.callFake((IN: any, eventName: string, callbackToCall) => {
+            it('should emit false from isUserAuthenticated$', fakeAsync(() => {
+                let actual = undefined;
+                spyOn(eventStub, 'on').and.callFake((IN: any, eventName: string, callback) => {
                     if (eventName === 'logout') {
-                        callbackToCall();
-                    }
-                });
-                subject.logout().subscribe({
-                    complete: () => {
-                        callbackToCall();
+                        subject.logout().subscribe({
+                            complete: () => {
+                                callback();
+                            }
+                        });
                     }
                 });
                 loadLibraryCallback();
-                let actual = undefined;
                 subject.isUserAuthenticated$.subscribe({
                     next: (state) => {
                         actual = <boolean>state;
@@ -337,6 +339,14 @@ describe('When using LinkedIn API Wrapper', () => {
                 });
                 expect(actual).toBeTruthy();
             }));
+        });
+
+        describe('And we request SDK IN', () => {
+            it('should not return undefined', () => {
+                loadLibraryCallback();
+                const actual = subject.getSdkIN();
+                expect(actual).not.toBe(undefined);
+            });
         });
     });
 });

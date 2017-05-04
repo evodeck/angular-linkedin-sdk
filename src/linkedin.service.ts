@@ -4,17 +4,17 @@ import {
     Optional
 } from '@angular/core';
 import {
-    AsyncSubject,
-    BehaviorSubject,
-    Observable,
-    Observer
-} from 'rxjs';
-import {
     DomHelper
 } from './dom.helper';
 import {
     FluentApiCall
 } from './fluent.api.call';
+import {
+    AsyncSubject,
+    BehaviorSubject,
+    Observable,
+    Observer
+} from 'rxjs';
 
 @Injectable()
 export class LinkedInService {
@@ -28,9 +28,9 @@ export class LinkedInService {
      */
     public isUserAuthenticated$: BehaviorSubject<boolean>;
 
-    private _sdkIN: any = undefined;
-    private _initializationStateSource: AsyncSubject<boolean>;
     private _authorize: boolean;
+    private _initializationStateSource: AsyncSubject<boolean>;
+    private _sdkIN: any = undefined;
 
     public constructor(
         private _domHelper: DomHelper,
@@ -43,7 +43,10 @@ export class LinkedInService {
         this.isInitialized$ = this._initializationStateSource.asObservable();
         this.isUserAuthenticated$ = new BehaviorSubject(undefined);
         // Load Linkedin SDK once the service is provided
-        this._domHelper.insertLinkedInScriptElement(() => this._onLibraryLoadedAndInitialized(), this._apiKey, this._authorize);
+        this._domHelper.insertLinkedInScriptElement(
+            () => this._onLibraryLoadedAndInitialized(),
+            this._apiKey,
+            this._authorize);
     }
 
     /**

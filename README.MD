@@ -6,6 +6,9 @@ All features of the original Javascript SDK are available through the service `L
 
 > This library is published in an early state. The exposed interfaces might still be subject to change. Please don't expect a stable interface before version 0.2.x
 
+[![NPM](https://nodei.co/npm/angular-linkedin-sdk.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/angular-linkedin-sdk/)
+[![NPM](https://nodei.co/npm-dl/angular-linkedin-sdk.png?months=3&height=2)](https://nodei.co/npm/angular-linkedin-sdk/)
+
 ## Demo
 
 To try the out the demo project clone the repository and run
@@ -40,7 +43,7 @@ If your project is based on Angular CLI / WebPack everything will work as expect
 
 Server side rendering is not supported, since the original LinkedIn Javascript SDK is using JSONP and can't run outside browser environments.
 
-> We are working on browser-agnostic support for the library. As mentioned it's not up to us to support server side rendering, but in future release we will avoid initialization on non-browser plattforms to make the library invisible. Unfortunately you must expect that the library will cause crashes in Angular Universal environments because of DOCUMENT and window object usage. 
+> We are working on browser-agnostic support for the library. As mentioned it's not up to us to support server side rendering, but in future release we will avoid initialization on non-browser platforms to make the library invisible. The library is set to not load when running in server side but it still might cause crashes in Angular Universal environments because of DOCUMENT and window object usage.
 
 ## Usage
 
@@ -90,8 +93,9 @@ export class AppComponent implements OnInit {
 
 ## API
 
-* [isInitialized](#isInitialized)
-* [isUserAuthenticated](#isUserAuthenticated)
+* [isInitialized](#isinitialized)
+* [isUserAuthenticated](#isuserauthenticated)
+* [getSdkIN](#getsdkin)
 * [login](#login)
 * [logout](#logout)
 * [raw](#raw)
@@ -126,6 +130,17 @@ ngOnInit() {
     }
   });
 }
+```
+
+### getSdkIN
+Gets the IN variable from the LinkedIN SDK. Allows access to variables from the SDK that are or are not documented officially.
+
+#### Example
+```typescript
+public getApiKeyFromSdkIN() {
+    // Retrieve the API key used in the library through the SDK IN variable
+    this.apiKey = this._linkedInService.getSdkIN().ENV.auth.api_key;
+  }
 ```
 
 ### login

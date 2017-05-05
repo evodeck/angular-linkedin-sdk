@@ -1,10 +1,6 @@
 import {
-    isPlatformBrowser
-} from '@angular/common';
-import {
     Injectable,
-    Inject,
-    PLATFORM_ID
+    Inject
 } from '@angular/core';
 import {
     DOCUMENT
@@ -18,13 +14,12 @@ export class DomHelper {
     public constructor(
         private _zoneHelper: ZoneHelper,
         @Inject(DOCUMENT) private _document: any,
-        @Inject('window') private _window: any,
-        @Inject(PLATFORM_ID) private _platformId: Object
+        @Inject('window') private _window: any
     ) {
     }
 
-    public insertLinkedInScriptElement(initializationCallback: () => void, apiKey: string, authorize?: boolean) {
-        if (isPlatformBrowser(this._platformId)) {
+    public insertLinkedInScriptElement(initializationCallback: () => void, apiKey: string, authorize?: boolean, isBrowser?: boolean) {
+        if (isBrowser === true) {
             this._initializeLibrary(initializationCallback);
             this._writeToDOM(apiKey, authorize);
         }

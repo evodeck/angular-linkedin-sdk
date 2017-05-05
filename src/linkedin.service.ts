@@ -36,9 +36,13 @@ export class LinkedInService {
         private _domHelper: DomHelper,
         @Inject('window') private _window: any,
         @Inject('apiKey') private _apiKey: string,
-        @Inject('authorize') @Optional() authorize?: boolean
+        @Inject('authorize') @Optional() authorize?: boolean,
+        @Inject('isBrowser') @Optional() isBrowser?: boolean
     ) {
         this._authorize = authorize || false;
+        if (isBrowser === undefined) {
+            isBrowser = true;
+        }
         this._initializationStateSource = new AsyncSubject<boolean>();
         this.isInitialized$ = this._initializationStateSource.asObservable();
         this.isUserAuthenticated$ = new BehaviorSubject(undefined);
@@ -46,7 +50,8 @@ export class LinkedInService {
         this._domHelper.insertLinkedInScriptElement(
             () => this._onLibraryLoadedAndInitialized(),
             this._apiKey,
-            this._authorize);
+            this._authorize,
+            isBrowser);
     }
 
     /**

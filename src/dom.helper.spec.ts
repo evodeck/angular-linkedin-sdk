@@ -9,6 +9,7 @@ describe('When using DomHelper', () => {
         let document: any;
         let zoneHelperSpy: any;
         let subject: DomHelper;
+        let isBrowser: boolean;
 
         class ElementMock {
             public src: string;
@@ -34,8 +35,7 @@ describe('When using DomHelper', () => {
         }
 
         beforeEach(() => {
-            // PLATFORM_ID values https://github.com/angular/angular/blob/master/packages/common/src/platform_id.ts
-            const platformId = 'browser';
+            isBrowser = true;
             callIsInZoneHelper = false;
             window = new Object();
             document = new DocumentMock();
@@ -43,7 +43,7 @@ describe('When using DomHelper', () => {
             zoneHelperSpy.runZoneIfNotAlready.and.callFake((callback) => {
                 callback();
             });
-            subject = new DomHelper(zoneHelperSpy, document, window, platformId);
+            subject = new DomHelper(zoneHelperSpy, document, window);
         });
 
         describe('to write to the DOM', () => {
@@ -51,7 +51,7 @@ describe('When using DomHelper', () => {
                 const initializationCallback = () => { };
                 const apiKeyDummy = '';
                 const authorizeDummy = true;
-                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy);
+                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy, isBrowser);
                 expect(window['linkedInStateChangeRef']).toBeDefined();
             });
 
@@ -59,7 +59,7 @@ describe('When using DomHelper', () => {
                 const initializationCallback = () => { };
                 const apiKeyDummy = '';
                 const authorizeDummy = true;
-                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy);
+                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy, isBrowser);
                 window['linkedInStateChangeRef']();
                 expect(zoneHelperSpy.runZoneIfNotAlready).toHaveBeenCalled();
             });
@@ -71,7 +71,7 @@ describe('When using DomHelper', () => {
                 };
                 const apiKeyDummy = '';
                 const authorizeDummy = true;
-                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy);
+                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy, isBrowser);
                 expect(initializationCallbackCalled).toBeFalsy();
             });
 
@@ -79,7 +79,7 @@ describe('When using DomHelper', () => {
                 const initializationCallback = undefined;
                 const apiKeyDummy = '';
                 const authorizeDummy = true;
-                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy);
+                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy, isBrowser);
                 expect(() => window['linkedInStateChangeRef']()).not.toThrow();
             });
 
@@ -90,7 +90,7 @@ describe('When using DomHelper', () => {
                 };
                 const apiKeyDummy = '';
                 const authorizeDummy = true;
-                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy);
+                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy, isBrowser);
                 window['linkedInStateChangeRef']();
                 expect(initializationCallbackCalled).toBeTruthy();
             });
@@ -101,7 +101,7 @@ describe('When using DomHelper', () => {
                 };
                 const apiKeyDummy = '';
                 const authorizeDummy = true;
-                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy);
+                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy, isBrowser);
                 window['linkedInStateChangeRef']();
                 expect(callIsInZoneHelper).toBeTruthy();
             });
@@ -111,7 +111,7 @@ describe('When using DomHelper', () => {
                 const initializationCallback = () => { };
                 const apiKeyDummy = '';
                 const authorizeDummy = true;
-                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy);
+                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy, isBrowser);
                 expect(createElementSpy).toHaveBeenCalledWith('script');
             });
 
@@ -120,7 +120,7 @@ describe('When using DomHelper', () => {
                 const initializationCallback = () => { };
                 const apiKeyDummy = '';
                 const authorizeDummy = true;
-                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy);
+                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy, isBrowser);
                 expect(appendChildSpy).toHaveBeenCalled();
             });
 
@@ -132,7 +132,7 @@ describe('When using DomHelper', () => {
                 const initializationCallback = () => { };
                 const apiKeyDummy = '';
                 const authorizeDummy = true;
-                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy);
+                subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy, isBrowser);
                 const scriptElementLibrary = '//platform.linkedin.com/in.js';
                 expect(element.src).toContain(scriptElementLibrary);
             });
@@ -148,7 +148,7 @@ describe('When using DomHelper', () => {
                             const expectedAuthorizeValue = `\nauthorize: ${authorize}\n`;
                             const initializationCallback = () => { };
                             const apiKeyDummy = '';
-                            subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorize);
+                            subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorize, isBrowser);
                             expect(element.innerHTML).toMatch(expectedAuthorizeValue);
                         });
                     });
@@ -165,7 +165,7 @@ describe('When using DomHelper', () => {
                             const expectedApiKey = `\napi_key: ${apiKey}\n`;
                             const initializationCallback = () => { };
                             const authorizeDummy = true;
-                            subject.insertLinkedInScriptElement(initializationCallback, expectedApiKey, authorizeDummy);
+                            subject.insertLinkedInScriptElement(initializationCallback, expectedApiKey, authorizeDummy, isBrowser);
                             expect(element.innerHTML).toMatch(expectedApiKey);
                         });
                     });
@@ -176,21 +176,21 @@ describe('When using DomHelper', () => {
     describe('in the server', () => {
         let subject: DomHelper;
         let window: any;
+        let isBrowser: boolean;
 
         beforeEach(() => {
-            // PLATFORM_ID values https://github.com/angular/angular/blob/master/packages/common/src/platform_id.ts
-            const platformId = 'server';
+            isBrowser = false;
             window = new Object();
             const documentDummy: Object = new Object();
             const zoneHelperDummy: any = new Object();
-            subject = new DomHelper(zoneHelperDummy, documentDummy, window, platformId);
+            subject = new DomHelper(zoneHelperDummy, documentDummy, window);
         });
 
         it('the initialization callback should be undefined', () => {
             const initializationCallback = () => { };
             const apiKeyDummy = '';
             const authorizeDummy = true;
-            subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy);
+            subject.insertLinkedInScriptElement(initializationCallback, apiKeyDummy, authorizeDummy, isBrowser);
             expect(window['linkedInStateChangeRef']).toBe(undefined);
         });
     });

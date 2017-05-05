@@ -46,7 +46,7 @@ If your project is based on Angular CLI / WebPack everything will work as expect
 
 Server side rendering is not supported, since the original LinkedIn Javascript SDK is using JSONP and can't run outside browser environments.
 
-> We are working on browser-agnostic support for the library. As mentioned it's not up to us to support server side rendering, but in future release we will avoid initialization on non-browser platforms to make the library invisible. The library is set to not load when running in server side but it still might cause crashes in Angular Universal environments because of DOCUMENT and window object usage.
+> We are working on browser-agnostic support for the library. As mentioned it's not up to us to support server side rendering but in future release we will avoid initialization on non-browser platforms to make the library invisible. It might cause crashes in Angular Universal environments because of DOCUMENT and window object usage. You can specify whether to run in browser or server in the providers as seen in the Usage example.
 
 ## Usage
 
@@ -73,7 +73,8 @@ import { LinkedInSdkModule } from 'angular-linkedin-sdk';
   providers: [
     // Inject apiKey and, optionally, authorize to integrate with LinkedIN official API
     { provide: 'apiKey', useValue: 'YOUR_API_KEY' },
-    { provide: 'authorize', useValue: 'true/false' } // OPTIONAL by default: false
+    { provide: 'authorize', useValue: 'true/false' }, // OPTIONAL by default: false
+    { provide: 'isBrowser', useValue: 'true/false' }  // OPTIONAL by default: true
   ],
   bootstrap: [AppComponent]
 })

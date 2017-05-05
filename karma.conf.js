@@ -1,6 +1,5 @@
-module.exports = function(config) {
-    config.set({
-
+module.exports = function (config) {
+    var configuration = {
         frameworks: ["jasmine", "karma-typescript"],
         files: [
             { pattern: "base.spec.ts" },
@@ -9,10 +8,9 @@ module.exports = function(config) {
         preprocessors: {
             "**/*.ts": ["karma-typescript"]
         },
-
         karmaTypescriptConfig: {
             exclude: ["node_modules", "dist", "demo"],
-            bundlerOptions: {    
+            bundlerOptions: {
                 entrypoints: /\.spec\.ts$/,
                 transforms: [
                     require("karma-typescript-angular2-transform")
@@ -25,9 +23,17 @@ module.exports = function(config) {
                 instrumentation: true
             }
         },
-
         reporters: ["spec", "karma-typescript"],
-
-        browsers: ["Chrome"]
-    });
+        browsers: ["Chrome"],
+        customLaunchers: {
+            Chrome_travis_ci: {
+                base: 'Chrome',
+                flags: ['--no-sandbox']
+            }
+        }
+    };
+    if (process.env.TRAVIS) {
+        configuration.browsers = ['Chrome_travis_ci'];
+    }
+    config.set(configuration);
 };

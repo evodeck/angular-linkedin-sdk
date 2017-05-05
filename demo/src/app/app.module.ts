@@ -14,7 +14,7 @@ import { LinkedInSdkModule } from '../../temp';
     LinkedInSdkModule
   ],
   providers: [
-    { provide: 'apiKey', useValue: '77e6o5uw11lpyk' },
+    { provide: 'apiKey', useValue: 'YOUR_API_KEY' },
     { provide: 'authorize', useValue: true}
   ],
   bootstrap: [AppComponent]

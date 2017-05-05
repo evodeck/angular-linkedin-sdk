@@ -21,12 +21,6 @@ module.exports = function (config) {
             },
             coverageOptions: {
                 instrumentation: true
-            },
-            reports: {
-                "lcovonly": {
-                    "directory": "coverage",
-                    "filename": "lcovonly/lcov.info"
-                }
             }
         },
         reporters: ["spec", "karma-typescript"],
@@ -36,13 +30,21 @@ module.exports = function (config) {
                 base: 'Chrome',
                 flags: ['--no-sandbox']
             }
-        },
-        coveragreReporter: {
-            type: 'lcov',
-            dir: 'coverage/'
         }
     };
     if (process.env.TRAVIS) {
+        // Codecov
+        configuration.coverageReporter = {
+            type: 'lcov',
+            dir: 'coverage/'
+        };
+        configuration.karmaTypescriptConfig.reports = {
+            "lcovonly": {
+                "directory": "coverage",
+                "filename": "lcovonly/lcov.info"
+            }
+        };
+        // Travis CI
         configuration.browsers = ['Chrome_travis_ci'];
         // Continuous Integration mode
         // if true, it capture browsers, run tests and exit

@@ -21,6 +21,12 @@ module.exports = function (config) {
             },
             coverageOptions: {
                 instrumentation: true
+            },
+            reports: {
+                "lcovonly": {
+                    "directory": "coverage",
+                    "filename": "lcovonly/lcov.info"
+                }
             }
         },
         reporters: ["spec", "karma-typescript"],
@@ -30,6 +36,10 @@ module.exports = function (config) {
                 base: 'Chrome',
                 flags: ['--no-sandbox']
             }
+        },
+        coveragreReporter: {
+            type: 'lcov',
+            dir: 'coverage/'
         }
     };
     if (process.env.TRAVIS) {

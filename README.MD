@@ -7,7 +7,10 @@ All features of the original Javascript SDK are available through the service `L
 > This library is published in an early state. The exposed interfaces might still be subject to change. Please don't expect a stable interface before version 0.2.x
 
 [![NPM](https://nodei.co/npm/angular-linkedin-sdk.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/angular-linkedin-sdk/)
-[![NPM](https://nodei.co/npm-dl/angular-linkedin-sdk.png?months=3&height=2)](https://nodei.co/npm/angular-linkedin-sdk/)
+[![NPM](https://nodei.co/npm-dl/angular-linkedin-sdk.png?months=3&height=3)](https://nodei.co/npm/angular-linkedin-sdk/)
+
+[![Build Status](https://travis-ci.org/evodeck/angular-linkedin-sdk.svg?branch=master)](https://travis-ci.org/evodeck/angular-linkedin-sdk)
+[![codecov](https://codecov.io/gh/evodeck/angular-linkedin-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/evodeck/angular-linkedin-sdk)
 
 ## Demo
 

@@ -34,6 +34,9 @@ module.exports = function (config) {
     };
     if (process.env.TRAVIS) {
         configuration.browsers = ['Chrome_travis_ci'];
+        // Continuous Integration mode
+        // if true, it capture browsers, run tests and exit
+        configuration.singleRun = true;
     }
     config.set(configuration);
 };

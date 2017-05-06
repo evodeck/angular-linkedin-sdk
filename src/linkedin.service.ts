@@ -37,12 +37,9 @@ export class LinkedInService {
         @Inject('window') private _window: any,
         @Inject('apiKey') private _apiKey: string,
         @Inject('authorize') @Optional() authorize?: boolean,
-        @Inject('isBrowser') @Optional() isBrowser?: boolean
+        @Inject('isServer') @Optional() isServer?: boolean
     ) {
         this._authorize = authorize || false;
-        if (isBrowser === undefined) {
-            isBrowser = true;
-        }
         this._initializationStateSource = new AsyncSubject<boolean>();
         this.isInitialized$ = this._initializationStateSource.asObservable();
         this.isUserAuthenticated$ = new BehaviorSubject(undefined);
@@ -51,7 +48,7 @@ export class LinkedInService {
             () => this._onLibraryLoadedAndInitialized(),
             this._apiKey,
             this._authorize,
-            isBrowser);
+            isServer);
     }
 
     /**

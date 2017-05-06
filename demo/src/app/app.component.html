@@ -6,9 +6,10 @@
     <div class="col">
       <button class="btn btn-primary" [hidden]="isUserAuthenticated | async" (click)="login()">Login with LinkedIN</button>
       <button class="btn btn-primary" [hidden]="!(isUserAuthenticated | async)" (click)="logout()">Logout from LinkedIN</button>
-      <button class="btn btn-primary" (click)="rawApiCall()">Get data</button>
-      <button class="btn btn-primary" (click)="refresh()">Refresh</button>
+      <button class="btn btn-primary" [hidden]="!(isUserAuthenticated | async)" (click)="rawApiCall()">Get data</button>
+      <button class="btn btn-primary" [hidden]="!(isUserAuthenticated | async)" (click)="refresh()">Refresh</button>
       <button class="btn btn-primary" (click)="getApiKeyFromSdkIN()">Get API key from SDK</button>
+      <button class="btn btn-primary" (click)="getAnonymousTokenFromSdkIN()">Get Anonymous Token from SDK</button>
     </div>
   </div>
   <div class="row mt-4">
@@ -16,6 +17,14 @@
       <h2>API Key</h2>
       <div>
         {{(isInitialized | async) === undefined ? 'undefined' : apiKey }}
+      </div>
+    </div>
+  </div>
+  <div class="row mt-4">
+    <div class="col">
+      <h2>Anonymous Token</h2>
+      <div>
+        {{(isInitialized | async) === undefined ? 'undefined' : anonymousToken }}
       </div>
     </div>
   </div>

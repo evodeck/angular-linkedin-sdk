@@ -18,6 +18,9 @@ export class AppComponent implements OnInit {
   public isInitialized;
   public lastResponse;
   public apiKey;
+  public anonymousToken;
+
+  private basicProfileFields = ['id', 'first-name', 'last-name', 'maiden-name', 'formatted-name', 'phonetic-first-name', 'phonetic-last-name', 'formatted-phonetic-name', 'headline', 'location', 'industry', 'picture-url', 'positions'];
 
   public constructor(private _linkedInService: LinkedInService) {
   }
@@ -67,7 +70,7 @@ export class AppComponent implements OnInit {
   }
 
   public rawApiCall() {
-    const url = '/people/~?format=json';
+    let url =`/people/~:(${this.basicProfileFields.join(',')})?format=json'`;
     this._linkedInService.raw(url)
       .asObservable()
       .subscribe({
@@ -86,5 +89,9 @@ export class AppComponent implements OnInit {
 
   public getApiKeyFromSdkIN() {
     this.apiKey = this._linkedInService.getSdkIN().ENV.auth.api_key;
+  }
+
+  public getAnonymousTokenFromSdkIN() {
+    this.anonymousToken = this._linkedInService.getSdkIN().ENV.auth.anonymous_token;
   }
 }

@@ -18,8 +18,8 @@ export class DomHelper {
     ) {
     }
 
-    public insertLinkedInScriptElement(initializationCallback: () => void, apiKey: string, authorize?: boolean, isBrowser?: boolean) {
-        if (isBrowser === true) {
+    public insertLinkedInScriptElement(initializationCallback: () => void, apiKey: string, authorize?: boolean, isServer?: boolean) {
+        if (isServer !== true) {
             this._initializeLibrary(initializationCallback);
             this._writeToDOM(apiKey, authorize);
         }

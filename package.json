@@ -1,6 +1,6 @@
 {
   "name": "angular-linkedin-sdk",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "scripts": {
     "replace": "replace '\"scripts\"(.|\\n)*?}\\,' '' package.json",
     "copy": "ncp README.MD dist/README.MD && ncp package.json dist/package.json && cd dist && npm run-script replace",

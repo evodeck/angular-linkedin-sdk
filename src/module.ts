@@ -1,8 +1,21 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { LinkedInService } from './linkedin.service';
-import { DomHelper } from './dom.helper';
-import { ZoneHelper } from './zone.helper';
+import {
+  NgModule
+} from '@angular/core';
+import {
+  CommonModule
+} from '@angular/common';
+import {
+  DomHelper
+} from './dom.helper';
+import {
+  LinkedInService
+} from './linkedin.service';
+import {
+  ZoneHelper
+} from './zone.helper';
+import {
+  getWindow
+} from './window.helper';
 
 @NgModule({
   imports: [
@@ -11,7 +24,7 @@ import { ZoneHelper } from './zone.helper';
   declarations: [
   ],
   providers: [
-    { provide: 'window', useValue: window },
+    { provide: 'window', useFactory: getWindow },
     ZoneHelper,
     DomHelper,
     LinkedInService

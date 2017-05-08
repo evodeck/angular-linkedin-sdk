@@ -74,7 +74,7 @@ import { LinkedInSdkModule } from 'angular-linkedin-sdk';
     // Inject apiKey and, optionally, authorize to integrate with LinkedIN official API
     { provide: 'apiKey', useValue: 'YOUR_API_KEY' },
     { provide: 'authorize', useValue: 'true/false' }, // OPTIONAL by default: false
-    { provide: 'isBrowser', useValue: 'true/false' }  // OPTIONAL by default: true
+    { provide: 'isServer', useValue: 'true/false' }  // OPTIONAL by default: false
   ],
   bootstrap: [AppComponent]
 })

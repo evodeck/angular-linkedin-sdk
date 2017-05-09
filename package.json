@@ -1,8 +1,8 @@
 {
   "name": "angular-linkedin-sdk",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "scripts": {
-    "replace": "replace '\"scripts\"(.|\\n)*?}\\,' '' package.json",
+    "replace": "node_modules/.bin/replace \"(.)scripts[\\s\\S]*?}\\,\" \"\" package.json",
     "copy": "ncp README.MD dist/README.MD && ncp package.json dist/package.json && cd dist && npm run-script replace",
     "clean": "rimraf dist/*",
     "build": "npm run-script clean && ngc && npm run-script copy",

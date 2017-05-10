@@ -4,7 +4,7 @@
   </h1>
   <div class="row mt-5">
     <div class="col">
-      <button class="btn btn-primary" [hidden]="isUserAuthenticated | async" (click)="login()">Login with LinkedIN</button>
+      <button id="loginBtt" class="btn btn-primary" [hidden]="isUserAuthenticated | async" (click)="login()">Login with LinkedIN</button>
       <button class="btn btn-primary" [hidden]="!(isUserAuthenticated | async)" (click)="logout()">Logout from LinkedIN</button>
       <button class="btn btn-primary" [hidden]="!(isUserAuthenticated | async)" (click)="rawApiCall()">Get data</button>
       <button class="btn btn-primary" [hidden]="!(isUserAuthenticated | async)" (click)="refresh()">Refresh</button>

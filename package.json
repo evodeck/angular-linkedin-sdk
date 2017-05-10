@@ -2,7 +2,7 @@
   "name": "angular-linkedin-sdk",
   "version": "0.1.7",
   "scripts": {
-    "e2e": "webdriver-manager update && webdriver-manager start & npm run-script build && protractor protractor.config.js",
+    "e2e": "cd demo && npm run e2e",
     "replace": "node_modules/.bin/replace \"(.)scripts[\\s\\S]*?}\\,\" \"\" package.json",
     "copy": "ncp README.MD dist/README.MD && ncp package.json dist/package.json && cd dist && npm run-script replace",
     "clean": "rimraf dist/*",
@@ -83,7 +83,6 @@
     "karma-typescript": "^3.0.0",
     "karma-typescript-angular2-transform": "^1.0.0",
     "ncp": "^2.0.0",
-    "protractor": "^5.1.1",
     "replace": "~0.3.0",
     "rimraf": "^2.6.1",
     "rm-cli": "^1.2.1",

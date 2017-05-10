@@ -2,6 +2,9 @@ import {
     Observable
 } from 'rxjs';
 import {
+    LinkedInConfig
+} from './linkedin.config';
+import {
     LinkedInService
 } from './linkedin.service';
 import {
@@ -14,6 +17,22 @@ import {
     fakeAsync
 } from '@angular/core/testing';
 
+
+class LinkedInConfigMock extends LinkedInConfig {
+    constructor(private _apiToken : string,
+    private _autorize : boolean) {
+        super();
+    }
+
+    public getApiToken() : string{
+        return this._apiToken;
+    }
+
+    public getAuthorize() : boolean{
+        return this._autorize;
+    }
+}
+
 describe('When using LinkedIn API Wrapper', () => {
     // Tests with dummy dependencies
     describe('', () => {
@@ -22,9 +41,8 @@ describe('When using LinkedIn API Wrapper', () => {
         beforeEach(() => {
             const domHelperDummy = jasmine.createSpyObj<DomHelper>('domHelperDummy', ['insertLinkedInScriptElement']);
             const windowDummy = new Object();
-            const apiKey = '';
-            const authorize = false;
-            subject = new LinkedInService(domHelperDummy, windowDummy, apiKey, authorize);
+            const config = new LinkedInConfigMock('', false);
+            subject = new LinkedInService(domHelperDummy, windowDummy, config);
         });
 
         describe('And we make a RAW API call', () => {
@@ -192,9 +210,8 @@ describe('When using LinkedIn API Wrapper', () => {
             eventStub = new EventStub();
             inStub = new INStub(userStub, eventStub);
             windowStub = new WindowStub(inStub);
-            const apiKey = '';
-            const authorize = false;
-            subject = new LinkedInService(domHelperSpy, windowStub, apiKey, authorize);
+            const config = new LinkedInConfigMock('', false);
+            subject = new LinkedInService(domHelperSpy, windowStub, config);
         });
 
         describe('And we perform login', () => {

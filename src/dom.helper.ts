@@ -8,13 +8,16 @@ import {
 import {
     ZoneHelper
 } from './zone.helper';
+import {
+    WINDOW
+} from './window.helper';
 
 @Injectable()
 export class DomHelper {
     public constructor(
         private _zoneHelper: ZoneHelper,
         @Inject(DOCUMENT) private _document: any,
-        @Inject('window') private _window: any
+        @Inject(WINDOW) private _window: any
     ) {
     }
 

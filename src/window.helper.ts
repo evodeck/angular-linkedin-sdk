@@ -1,3 +1,7 @@
+import { OpaqueToken } from '@angular/core';
+
+export let WINDOW = new OpaqueToken('window');
+
 /**
  * Gets the window instance.
  */

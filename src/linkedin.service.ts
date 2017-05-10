@@ -1,7 +1,8 @@
 import {
     Injectable,
     Inject,
-    Optional
+    Optional,
+    OpaqueToken
 } from '@angular/core';
 import {
     DomHelper
@@ -10,11 +11,19 @@ import {
     FluentApiCall
 } from './fluent.api.call';
 import {
+    LINKEDIN_CONFIG, LinkedInConfig
+} from './linkedin.config';
+import {
+    WINDOW
+} from './window.helper';
+import {
     AsyncSubject,
     BehaviorSubject,
     Observable,
     Observer
 } from 'rxjs';
+
+export let LINKEDIN_ISSERVER_ENV = new OpaqueToken('linkedin.isserver.env');
 
 @Injectable()
 export class LinkedInService {
@@ -34,19 +43,18 @@ export class LinkedInService {
 
     public constructor(
         private _domHelper: DomHelper,
-        @Inject('window') private _window: any,
-        @Inject('apiKey') private _apiKey: string,
-        @Inject('authorize') @Optional() authorize?: boolean,
-        @Inject('isServer') @Optional() isServer?: boolean
+        @Inject(WINDOW) private _window: any,
+        @Inject(LINKEDIN_CONFIG) private _linkedInConfig: LinkedInConfig,
+        @Inject(LINKEDIN_ISSERVER_ENV) @Optional() isServer?: boolean
     ) {
-        this._authorize = authorize || false;
+        this._authorize = _linkedInConfig.getAuthorize();
         this._initializationStateSource = new AsyncSubject<boolean>();
         this.isInitialized$ = this._initializationStateSource.asObservable();
         this.isUserAuthenticated$ = new BehaviorSubject(undefined);
         // Load Linkedin SDK once the service is provided
         this._domHelper.insertLinkedInScriptElement(
             () => this._onLibraryLoadedAndInitialized(),
-            this._apiKey,
+            this._linkedInConfig.getApiToken(),
             this._authorize,
             isServer);
     }

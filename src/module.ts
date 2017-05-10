@@ -14,7 +14,7 @@ import {
   ZoneHelper
 } from './zone.helper';
 import {
-  getWindow
+  getWindow, WINDOW
 } from './window.helper';
 
 @NgModule({
@@ -24,7 +24,7 @@ import {
   declarations: [
   ],
   providers: [
-    { provide: 'window', useFactory: getWindow },
+    { provide: WINDOW, useFactory: getWindow },
     ZoneHelper,
     DomHelper,
     LinkedInService

@@ -3,7 +3,7 @@
 
 const { SpecReporter } = require('jasmine-spec-reporter');
 
-exports.config = {
+var configuration = {
   allScriptsTimeout: 11000,
   specs: [
     './e2e/**/*.e2e-spec.ts'
@@ -17,9 +17,9 @@ exports.config = {
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,
-    print: function() {}
+    print: function () { }
   },
-  beforeLaunch: function() {
+  beforeLaunch: function () {
     require('ts-node').register({
       project: 'e2e/tsconfig.e2e.json'
     });
@@ -28,3 +28,13 @@ exports.config = {
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
   }
 };
+if(process.env.TRAVIS) {
+  configuration.sauceUSER = process.env.SAUCE_USERNAME;
+  configuration.sauceKey = process.env.SAUCE_ACCESS_KEY;
+  configuration.capabilities = {
+    'browserName': 'chrome',
+    'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
+    'build': process.env.TRAVIS_BUILD_NUMBER
+  };
+}
+exports.config = configuration;

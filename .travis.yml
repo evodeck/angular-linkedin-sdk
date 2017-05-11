@@ -19,6 +19,7 @@ before_script:
 - sh -e /etc/init.d/xvfb start
 - sleep 3
 - replace "YOUR_API_KEY"  $LinkedIN_API_key demo/src/app/app.module.ts
+- sudo webdriver-manager update
 script: 
 - npm run e2e
 env:

@@ -19,7 +19,7 @@ addons:
 before_script:
 - replace "YOUR_API_KEY"  $LinkedIN_API_key demo/src/app/app.module.ts
 - npm install -g protractor
-- webdriver-manager update
+- webdriver-manager update --versions.chrome=2.24
 script: 
 - export LANG=en_US.UTF-8
 - npm run e2e

@@ -18,8 +18,7 @@ addons:
   sauce_connect: true
 before_script: replace "YOUR_API_KEY"  $LinkedIN_API_key demo/src/app/app.module.ts
 script: 
-- export LANG=en_US.UTF-8
-- npm run e2e
+- export LANG=en_US.UTF-8 && npm run e2e
 env:
   global:
     secure: XBTG+pt1XVwWTgZImtGLJ1rqDuDDhwjrkKRojwM6Pnj6ijDTmJzs/Ye7ImPjemONi5yzuLazfBb8/JDJssiKFCXTwvwGLZnouub5Ak44xFFOkdXKcI96k5vyHT2a3NRtk0bV9S4NwjpQ8+hGj91SNtmf1BNRvJjpWwTXX61eWEhn3h1wf2i2oAvMflXgYKKlMlVkOBJR3B3jiPwA/utYlTWLyjd51qfz2gMTAisB01Yosqm0qOsHPa/CRdq/eVVvWPQuCHAWmTUQK46VtuRAsrxAZUTU/gfqNXiDCejuWA9OqpEDIIAl1vDHqYG+4wJd9qJwe4OPn1mEWjkxxoaNXzVHnNP32mAtE/+rNFfhcMgwHYYbP6gM0AR1yWvgv585sigzSV5t1iWjCyHs0rddGf+FN9B9plRxv3gY085ky+HytCurLgCJtO7RkSm8hntKqH+g3iW0YGIKJ66MzhJW2gDOtZe3rkGjxtAqsE30pZToaRwuSsJk0Id719PbCCReuz2ZzfpGuZhSfBKASaBIiRu5eHCXImGJU6VAmCSGzO8CqAAORuimd6tJ6Of+cmp4yXOKdQiHscEtIoe0Npbdz+Hbg+E4bb2jGPUH0aSZAylkOO7HQi2xvrEIXtI4EtDTbinCoPz+k6LXO5EwGFBuSQvrMaa8Q8WhaUhC37cjAVk=

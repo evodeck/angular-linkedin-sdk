@@ -12,6 +12,8 @@ All features of the original Javascript SDK are available through the service `L
 [![Build Status](https://travis-ci.org/evodeck/angular-linkedin-sdk.svg?branch=master)](https://travis-ci.org/evodeck/angular-linkedin-sdk)
 [![codecov](https://codecov.io/gh/evodeck/angular-linkedin-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/evodeck/angular-linkedin-sdk)
 [![dependencies Status](https://david-dm.org/evodeck/angular-linkedin-sdk/status.svg)](https://david-dm.org/evodeck/angular-linkedin-sdk)
+[![devDependencies Status](https://david-dm.org/evodeck/angular-linkedin-sdk/dev-status.svg)](https://david-dm.org/evodeck/angular-linkedin-sdk?type=dev)
+[![peerDependencies Status](https://david-dm.org/evodeck/angular-linkedin-sdk/peer-status.svg)](https://david-dm.org/evodeck/angular-linkedin-sdk?type=peer)
 
 ## Demo
 

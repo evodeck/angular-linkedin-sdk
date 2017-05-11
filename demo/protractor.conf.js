@@ -28,7 +28,7 @@ var configuration = {
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
   }
 };
-if(process.env.TRAVIS) {
+if (process.env.TRAVIS) {
   configuration.sauceUSER = process.env.SAUCE_USERNAME;
   configuration.sauceKey = process.env.SAUCE_ACCESS_KEY;
   configuration.capabilities = {
@@ -37,5 +37,6 @@ if(process.env.TRAVIS) {
     'build': process.env.TRAVIS_BUILD_NUMBER
   };
   configuration.directConnect = false;
+  configuration.chromeDriver = `./node_modules/protractor/node_modules/webdriver-manager/selenium/chromedriver_2.24${process.platform.indexOf('win') === 0 ? '.exe' : ''}`;
 }
 exports.config = configuration;

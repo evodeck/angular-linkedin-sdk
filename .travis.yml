@@ -18,9 +18,7 @@ before_script:
 - export DISPLAY=:99.0
 - sh -e /etc/init.d/xvfb start
 - sleep 3 # give xvfb some time to start
-- rackup  # start a Web server
-- sleep 3 # give Web server some time to bind to sockets, etc
-- replace "YOUR_API_KEY"  $LinkedIN_API_key demo/src/app/app.module.ts
+- replace "YOUR_API_KEY" $LinkedIN_API_key demo/src/app/app.module.ts
 script: 
 - npm run e2e
 env:

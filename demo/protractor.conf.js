@@ -37,6 +37,6 @@ if (process.env.TRAVIS) {
     'build': process.env.TRAVIS_BUILD_NUMBER
   };
   configuration.directConnect = false;
-  configuration.sauceSeleniumAddress = process.env.SELENIUM_HOST + ':' + process.env.SELENIUM_PORT + '/wd/hub';
+  configuration.seleniumAddress = process.env.SELENIUM_HOST + ':' + process.env.SELENIUM_PORT + '/wd/hub';
 }
 exports.config = configuration;

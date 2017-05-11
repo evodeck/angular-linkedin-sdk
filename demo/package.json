@@ -7,8 +7,7 @@
     "start": "ng serve",
     "build": "ng build",
     "lint": "ng lint",
-    "e2e": "concurrently \"ng serve\" \"ng e2e\" --kill-others --success first",
-     "update-webdriver": "webdriver-manager update"
+    "e2e": "concurrently \"ng serve\" \"ng e2e\" --kill-others --success first"
   },
   "private": true,
   "dependencies": {

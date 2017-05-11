@@ -19,7 +19,6 @@ before_script:
 - sh -e /etc/init.d/xvfb start
 - sleep 3 # give xvfb some time to start
 - replace "YOUR_API_KEY" $LinkedIN_API_key demo/src/app/app.module.ts
-- npm run update-webdriver
 script: 
 - npm run e2e
 env:

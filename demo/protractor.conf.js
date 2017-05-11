@@ -37,6 +37,5 @@ if (process.env.TRAVIS) {
     'build': process.env.TRAVIS_BUILD_NUMBER
   };
   configuration.directConnect = false;
-  configuration.baseUrl = 'http://' + (process.env.CI ? 'evodeck' : 'localhost') + ':4200';
 }
 exports.config = configuration;

@@ -29,6 +29,7 @@ var configuration = {
   }
 };
 if (process.env.TRAVIS) {
+  configuration.sauceBuild = process.env.TRAVIS_JOB_NUMBER;
   configuration.sauceUser = process.env.SAUCE_USERNAME;
   configuration.sauceKey = process.env.SAUCE_ACCESS_KEY;
   configuration.capabilities = {

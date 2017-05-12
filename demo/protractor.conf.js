@@ -29,7 +29,7 @@ var configuration = {
   }
 };
 if (process.env.TRAVIS) {
-  configuration.sauceUSER = process.env.SAUCE_USERNAME;
+  configuration.sauceUser = process.env.SAUCE_USERNAME;
   configuration.sauceKey = process.env.SAUCE_ACCESS_KEY;
   configuration.capabilities = {
     'browserName': 'chrome',

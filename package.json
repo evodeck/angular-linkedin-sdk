@@ -9,6 +9,7 @@
     "build": "npm run-script clean && ngc && npm run-script copy",
     "lint": "tslint --type-check --project tsconfig.json src/**/*.ts",
     "test": "karma start",
+    "test:Travis": "karma start --single-run",
     "copy_demo": "rm-cli -ss demo/temp/* && ncp dist demo/temp",
     "demo": "npm run build && npm run copy_demo && cd demo && ng serve",
     "install": "cd demo && npm install"

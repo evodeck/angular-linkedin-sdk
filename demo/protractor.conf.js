@@ -32,12 +32,11 @@ if (process.env.TRAVIS) {
   configuration.sauceUser = process.env.SAUCE_USERNAME;
   configuration.sauceKey = process.env.SAUCE_ACCESS_KEY;
   configuration.capabilities = {
-    'name': 'angular-linkedin-sdk E2E node v' + process.env.TRAVIS_NODE_VERSION,
+    'name': 'angular-linkedin-sdk demo E2E node v' + process.env.TRAVIS_NODE_VERSION,
     'browserName': 'chrome',
     'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
     'build': process.env.TRAVIS_BUILD_NUMBER
   };
   configuration.directConnect = false;
-  console.log(configuration.capabilities['build']);
 }
 exports.config = configuration;

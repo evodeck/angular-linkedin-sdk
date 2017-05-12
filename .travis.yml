@@ -4,8 +4,19 @@ node_js:
 branches:
   only:
   - master
+env:
+  global:
+    secure: XBTG+pt1XVwWTgZImtGLJ1rqDuDDhwjrkKRojwM6Pnj6ijDTmJzs/Ye7ImPjemONi5yzuLazfBb8/JDJssiKFCXTwvwGLZnouub5Ak44xFFOkdXKcI96k5vyHT2a3NRtk0bV9S4NwjpQ8+hGj91SNtmf1BNRvJjpWwTXX61eWEhn3h1wf2i2oAvMflXgYKKlMlVkOBJR3B3jiPwA/utYlTWLyjd51qfz2gMTAisB01Yosqm0qOsHPa/CRdq/eVVvWPQuCHAWmTUQK46VtuRAsrxAZUTU/gfqNXiDCejuWA9OqpEDIIAl1vDHqYG+4wJd9qJwe4OPn1mEWjkxxoaNXzVHnNP32mAtE/+rNFfhcMgwHYYbP6gM0AR1yWvgv585sigzSV5t1iWjCyHs0rddGf+FN9B9plRxv3gY085ky+HytCurLgCJtO7RkSm8hntKqH+g3iW0YGIKJ66MzhJW2gDOtZe3rkGjxtAqsE30pZToaRwuSsJk0Id719PbCCReuz2ZzfpGuZhSfBKASaBIiRu5eHCXImGJU6VAmCSGzO8CqAAORuimd6tJ6Of+cmp4yXOKdQiHscEtIoe0Npbdz+Hbg+E4bb2jGPUH0aSZAylkOO7HQi2xvrEIXtI4EtDTbinCoPz+k6LXO5EwGFBuSQvrMaa8Q8WhaUhC37cjAVk=
 before_install:
 - pip install --user codecov
+- export CHROME_BIN=chromium-browser
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+- sleep 3 # give xvfb some time to start
+before_script:
+- replace "YOUR_API_KEY" $LinkedIN_API_key demo/src/app/app.module.ts
+script: 
+- npm run e2e
 after_success:
 - codecov
 notifications:
@@ -13,14 +24,3 @@ notifications:
     secure: EBRuvzCtOVGQVoZ9F4vCFTanucfkn1BZGH+A8XmE/9oMOaRw5l/IuO/UEMhFlvJrIbQab3lJsVXGcKisTV7pwxPEXpqhgXQKS/+qEFj09Wmp0vPKPnJS7WD2fqhVMFHZnPjf66IEt+ytAAgqX74JUeB3f80ditdNRN+41yzfXaNwbGvvoKzkh2LGpl4Ns+B/O/2vKJl0ZCuJoNcTyCGFgLoZ8Q3lIh+RGbRuM6T8W+6j/oEaDItiK9uUJlRo1ftL6hhMprEjUueFwNAx41aRo2CBwASrTXho1disCTFAk6mTZOxrf+zlvunsBKtfbn3tHgBuWt2QoQfNCMUb8rYIFDQt25XqyeJ6tum9VPgbktWDMiijVnAHUQ7dtcFznblMRAspVMG4gmqZm0gKedb5FSLjYDa25iTQKX4UMm1lQEHHHBIdJxPJuD219IVGU5zr/NbOlftkG4qEVbcC6MWZuiqc2hyKlJbC3nzM+6TO4opNW/idLriTtzTIxLXkD9JayngVE3nPkT50550kTrwQLiBliYqbLDoBfkv2f9gy5CefipGeasQET7SOV8uI1NOIxTg5N+8x8SaF2d2w/GhbQ2JEDRveQV6KKTGrYVqMmAU4t4KiPCZrn+/pQjUvVNJ71tNiupPiKtcuwBdUHsda8Jz4XLg+LAUvALBWbY65kHY=
 addons:
   sauce_connect: true
-before_script:
-- export CHROME_BIN=chromium-browser
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
-- sleep 3 # give xvfb some time to start
-- replace "YOUR_API_KEY" $LinkedIN_API_key demo/src/app/app.module.ts
-script: 
-- npm run e2e
-env:
-  global:
-    secure: XBTG+pt1XVwWTgZImtGLJ1rqDuDDhwjrkKRojwM6Pnj6ijDTmJzs/Ye7ImPjemONi5yzuLazfBb8/JDJssiKFCXTwvwGLZnouub5Ak44xFFOkdXKcI96k5vyHT2a3NRtk0bV9S4NwjpQ8+hGj91SNtmf1BNRvJjpWwTXX61eWEhn3h1wf2i2oAvMflXgYKKlMlVkOBJR3B3jiPwA/utYlTWLyjd51qfz2gMTAisB01Yosqm0qOsHPa/CRdq/eVVvWPQuCHAWmTUQK46VtuRAsrxAZUTU/gfqNXiDCejuWA9OqpEDIIAl1vDHqYG+4wJd9qJwe4OPn1mEWjkxxoaNXzVHnNP32mAtE/+rNFfhcMgwHYYbP6gM0AR1yWvgv585sigzSV5t1iWjCyHs0rddGf+FN9B9plRxv3gY085ky+HytCurLgCJtO7RkSm8hntKqH+g3iW0YGIKJ66MzhJW2gDOtZe3rkGjxtAqsE30pZToaRwuSsJk0Id719PbCCReuz2ZzfpGuZhSfBKASaBIiRu5eHCXImGJU6VAmCSGzO8CqAAORuimd6tJ6Of+cmp4yXOKdQiHscEtIoe0Npbdz+Hbg+E4bb2jGPUH0aSZAylkOO7HQi2xvrEIXtI4EtDTbinCoPz+k6LXO5EwGFBuSQvrMaa8Q8WhaUhC37cjAVk=

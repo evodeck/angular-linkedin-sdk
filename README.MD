@@ -14,8 +14,8 @@ All features of the original Javascript SDK are available through the service `L
 [![dependencies Status](https://david-dm.org/evodeck/angular-linkedin-sdk/status.svg)](https://david-dm.org/evodeck/angular-linkedin-sdk)
 [![devDependencies Status](https://david-dm.org/evodeck/angular-linkedin-sdk/dev-status.svg)](https://david-dm.org/evodeck/angular-linkedin-sdk?type=dev)
 [![peerDependencies Status](https://david-dm.org/evodeck/angular-linkedin-sdk/peer-status.svg)](https://david-dm.org/evodeck/angular-linkedin-sdk?type=peer)
-[![Sauce Test Status](https://saucelabs.com/buildstatus/YOUR_SAUCE_USERNAME)](https://saucelabs.com/u/marcodefreitas)
-[![Sauce Test Status](https://saucelabs.com/browser-matrix/YOUR_SAUCE_USERNAME.svg)](https://saucelabs.com/u/marcodefreitas)
+[![Build Status](https://saucelabs.com/buildstatus/evodeck)](https://saucelabs.com/beta/builds/f7b0a0b180f740e48ae9d17bc3004d67)
+[![Build Status](https://saucelabs.com/browser-matrix/evodeck.svg)](https://saucelabs.com/beta/builds/f7b0a0b180f740e48ae9d17bc3004d67)
 
 ## Demo
 

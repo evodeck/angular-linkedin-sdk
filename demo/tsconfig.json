@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "outDir": "./dist/out-tsc",
+    "outDir": "./tsc",
     "baseUrl": "",
     "sourceMap": true,
     "declaration": false,
@@ -16,5 +16,8 @@
       "es2016",
       "dom"
     ]
-  }
+  },
+  "include": [
+    "e2e"
+  ]
 }

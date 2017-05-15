@@ -2,7 +2,8 @@
   "name": "angular-linkedin-sdk",
   "version": "0.1.7",
   "scripts": {
-    "e2e": "npm run build && npm run copy_demo && cd demo && npm run e2e",
+    "e2e": "npm run build && npm run copy_demo && cd demo && tsc && ng e2e -p 4000",
+    "e2e:sc": "npm run build && npm run copy_demo && cd demo && tsc && ng e2e -p 4000 -c protractor-sc.conf.js",
     "replace": "node_modules/.bin/replace \"(.)scripts[\\s\\S]*?}\\,\" \"\" package.json",
     "copy": "ncp README.MD dist/README.MD && ncp package.json dist/package.json && cd dist && npm run-script replace",
     "clean": "rimraf dist/*",

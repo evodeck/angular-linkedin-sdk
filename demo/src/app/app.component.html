@@ -40,7 +40,7 @@
             <div class="col">
               {{(isInitialized | async) === undefined ? 'undefined' : '' }} {{isInitialized | async | json}}
             </div>
-            <div class="col">
+            <div name="isInitializedEmittedValue" class="col">
               <span *ngIf="isInitializedEmittedValue" class="badge badge-success float-right">Emitted Value</span>
             </div>
           </div>

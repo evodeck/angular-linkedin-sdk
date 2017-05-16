@@ -9,15 +9,11 @@ import {
 describe('When running the demo', () => {
     const loginButtonId = 'loginBtn';
 
-    it('the login button should be present', async () => {
-        let isLoginButtonPresent = false;
+    it('the login button should be present', () => {
         const root = '/';
         browser.get(root);
         const loginButton = element(by.id(loginButtonId));
-        await loginButton.isPresent().then((value) => {
-            isLoginButtonPresent = value;
-        });
-        expect(isLoginButtonPresent).toBeTruthy();
+        expect(loginButton.isPresent()).toBeTruthy();
     });
 
     describe('The LinkedIN library', () => {
@@ -53,11 +49,11 @@ describe('When running the demo', () => {
                 });
             });
 
-            describe('To perform a login', () => {
+            describe('And the pop up login is filled with correct data', () => {
                 it('should login without timeout', async () => {
                     const logoutButtonId = 'logoutBtn';
-                    const username = 'test.dummy.linkedin@gmail.com';
-                    const password = 'linkedinapp';
+                    const username = 'USERNAME';
+                    const password = 'PASSWORD';
                     browser.findElement(by.name(session_keyName)).sendKeys(username);
                     browser.findElement(by.name(session_passwordName)).sendKeys(password);
                     browser.findElement(by.name(authorizeName)).click();

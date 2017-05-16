@@ -15,6 +15,8 @@ before_install:
 - sleep 3 # give xvfb some time to start
 before_script:
 - replace "YOUR_API_KEY" $LinkedIN_API_key demo/src/app/app.module.ts
+- replace "USERNAME" $LinkedIN_Demo_Username demo/e2e/app.e2e-spec.ts
+- replace "PASSWORD" $LinkedIN_Demo_Password demo/e2e/app.e2e-spec.ts
 script:
 - npm run test:Travis
 - npm run e2e

@@ -4,8 +4,8 @@
   </h1>
   <div class="row mt-5">
     <div class="col">
-      <button id="loginBtt" class="btn btn-primary" [hidden]="isUserAuthenticated | async" (click)="login()">Login with LinkedIN</button>
-      <button class="btn btn-primary" [hidden]="!(isUserAuthenticated | async)" (click)="logout()">Logout from LinkedIN</button>
+      <button id="loginBtn" class="btn btn-primary" [hidden]="isUserAuthenticated | async" (click)="login()">Login with LinkedIN</button>
+      <button id="logoutBtn" class="btn btn-primary" [hidden]="!(isUserAuthenticated | async)" (click)="logout()">Logout from LinkedIN</button>
       <button class="btn btn-primary" [hidden]="!(isUserAuthenticated | async)" (click)="rawApiCall()">Get data</button>
       <button class="btn btn-primary" [hidden]="!(isUserAuthenticated | async)" (click)="refresh()">Refresh</button>
       <button class="btn btn-primary" (click)="getApiKeyFromSdkIN()">Get API key from SDK</button>
@@ -38,8 +38,7 @@
               isInitialzed$:
             </div>
             <div class="col">
-              {{(isInitialized | async) === undefined ? 'undefined' : '' }}
-              {{isInitialized | async | json}}
+              {{(isInitialized | async) === undefined ? 'undefined' : '' }} {{isInitialized | async | json}}
             </div>
             <div class="col">
               <span *ngIf="isInitializedEmittedValue" class="badge badge-success float-right">Emitted Value</span>
@@ -52,8 +51,7 @@
               isUserAuthenticated$:
             </div>
             <div class="col">
-              {{(isUserAuthenticated | async) === undefined ? 'undefined' : '' }}
-              {{isUserAuthenticated | async | json}}
+              {{(isUserAuthenticated | async) === undefined ? 'undefined' : '' }} {{isUserAuthenticated | async | json}}
             </div>
             <div class="col">
               <span *ngIf="isUserAuthenticatedEmittedValue" class="badge badge-success float-right">Emitted Value</span>

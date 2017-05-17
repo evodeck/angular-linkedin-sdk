@@ -16,7 +16,7 @@ before_script:
 - replace "PASSWORD" $LinkedIN_Demo_Password demo/e2e/app.e2e-spec.ts
 script:
 - npm run test:Travis
-- npm run e2e
+- npm run e2e:Travis
 after_success:
 - codecov
 notifications:

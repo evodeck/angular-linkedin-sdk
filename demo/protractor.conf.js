@@ -8,7 +8,7 @@ var configuration = {
   specs: [
     './tsc/*.e2e-spec.js'
   ],
-  baseUrl: 'http://localhost:4200',
+  baseUrl: 'http://localhost:4000',
   capabilities: {
     'browserName': 'chrome'
   },

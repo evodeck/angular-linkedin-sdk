@@ -19,6 +19,10 @@ var configuration = {
     'tunnel-identifier': 'Test',
     'name': 'angular-linkedin-sdk demo E2E firefox',
     'browserName': 'firefox'
+  }, {
+    'tunnel-identifier': 'Test',
+    'name': 'angular-linkedin-sdk demo E2E IE11',
+    'browserName': 'internet explorer'
   }],
   directConnect: false,
   framework: 'jasmine',

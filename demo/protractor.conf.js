@@ -37,6 +37,10 @@ if (process.env.TRAVIS) {
     'build': process.env.TRAVIS_BUILD_NUMBER,
     'name': 'angular-linkedin-sdk demo E2E firefox node v' + process.env.TRAVIS_NODE_VERSION,
     'browserName': 'firefox'
+  }, {
+    'tunnel-identifier': 'Test',
+    'name': 'angular-linkedin-sdk demo E2E IE11',
+    'browserName': 'internet explorer'
   }];
   configuration.directConnect = false;
 }

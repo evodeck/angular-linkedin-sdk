@@ -49,7 +49,7 @@ describe('When running the demo', () => {
                 });
             });
 
-            describe('And the pop up login is filled with correct data', () => {
+            xdescribe('And the pop up login is filled with correct data', () => {
                 it('should login without timeout', async () => {
                     const logoutButtonId = 'logoutBtn';
                     const username = 'USERNAME';

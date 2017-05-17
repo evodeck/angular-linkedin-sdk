@@ -37,19 +37,19 @@ describe('When running the demo', () => {
                 element(by.id(loginButtonId)).click();
 
                 //temp fix - because popup might not appear immediately
-                browser.sleep(2500).then(() => {
-                    browser.getAllWindowHandles().then((handles) => {
-                        browser.switchTo().window(handles[1]);
-                        browser.ignoreSynchronization = true;
-                        browser.wait(
-                            () => {
-                                return browser.isElementPresent(by.name(session_keyName))
-                                    && browser.isElementPresent(by.name(session_passwordName))
-                                    && browser.isElementPresent(by.name(authorizeName));
-                            }
-                            , timeout
-                            , 'LinkedIN popup not loaded or not all elements found.');
-                    });
+                browser.driver.sleep(10000);
+                
+                await browser.getAllWindowHandles().then((handles) => {
+                    browser.switchTo().window(handles[1]);
+                    browser.ignoreSynchronization = true;
+                    browser.wait(
+                        () => {
+                            return browser.isElementPresent(by.name(session_keyName))
+                                && browser.isElementPresent(by.name(session_passwordName))
+                                && browser.isElementPresent(by.name(authorizeName));
+                        }
+                        , timeout
+                        , 'LinkedIN popup not loaded or not all elements found.');
                 });
             });
 

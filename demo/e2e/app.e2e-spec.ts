@@ -35,6 +35,9 @@ describe('When running the demo', () => {
 
             it('should open the login pop up', async () => {
                 element(by.id(loginButtonId)).click();
+
+                //temp fix - because popup might not appear immediately
+                waits(2500);
                 await browser.getAllWindowHandles().then((handles) => {
                     browser.switchTo().window(handles[1]);
                     browser.ignoreSynchronization = true;
@@ -57,6 +60,7 @@ describe('When running the demo', () => {
                     browser.findElement(by.name(session_keyName)).sendKeys(username);
                     browser.findElement(by.name(session_passwordName)).sendKeys(password);
                     browser.findElement(by.name(authorizeName)).click();
+
                     await browser.getAllWindowHandles().then((handles) => {
                         browser.switchTo().window(handles[0]);
                     });

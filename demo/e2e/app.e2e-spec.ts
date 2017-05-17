@@ -35,10 +35,6 @@ describe('When running the demo', () => {
 
             it('should open the login pop up', async () => {
                 element(by.id(loginButtonId)).click();
-
-                //temp fix - because popup might not appear immediately
-                browser.driver.sleep(10000);
-                
                 await browser.getAllWindowHandles().then((handles) => {
                     browser.switchTo().window(handles[1]);
                     browser.ignoreSynchronization = true;

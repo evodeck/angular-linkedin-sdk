@@ -19,20 +19,6 @@ var configuration = {
     'tunnel-identifier': 'Test',
     'name': 'angular-linkedin-sdk demo E2E firefox',
     'browserName': 'firefox'
-  }, {
-    'tunnel-identifier': 'Test',
-    'name': 'angular-linkedin-sdk demo E2E IE',
-    'browserName': 'internet explorer'
-  }, {
-    'tunnel-identifier': 'Test',
-    'name': 'angular-linkedin-sdk demo E2E safari',
-    'browserName': 'safari',
-    'platform': 'macOS 10.12'
-  }, {
-    'tunnel-identifier': 'Test',
-    'name': 'angular-linkedin-sdk demo E2E safari 8',
-    'browserName': 'safari',
-    'platform': 'OS X 10.10'
   }],
   directConnect: false,
   framework: 'jasmine',

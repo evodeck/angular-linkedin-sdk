@@ -5,6 +5,7 @@ npm-debug.log
 # TypeScript
 *.js
 !demo/protractor.conf.js
+!demo/protractor-sc.conf.js
 !karma.conf.js
 *.map
 *.d.ts

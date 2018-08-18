@@ -1,31 +1,29 @@
 import { FluentApiCall } from './fluent.api.call';
 
-import {
-    Observable,
-    AsyncSubject
-} from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { AsyncSubject } from 'rxjs/AsyncSubject';
 
 import {
     fakeAsync
 } from '@angular/core/testing';
 
 class StubApi {
-    public Raw(url) {
+    public Raw(url: any) {
         return this;
     }
-    public url(method) {
+    public url(method: any) {
         return this;
     }
-    public method(method) {
+    public method(method: any) {
         return this;
     }
-    public body(bodyContent) {
+    public body(bodyContent: any) {
         return this;
     }
-    public result(callback) {
+    public result(callback: any) {
         return this;
     }
-    public error(callback) {
+    public error(callback: any) {
         return this;
     }
 }
@@ -175,7 +173,7 @@ describe('FluentApiCall', () => {
 
             it('should complete returned observable if api calls result callback', fakeAsync(()=>{
                 let called = false;
-                rawApiResultSpy.and.callFake((callback) => {callback(); });
+                rawApiResultSpy.and.callFake((callback: any) => {callback(); });
                 subject.asObservable().subscribe(()=>{}, ()=>{}, () => called = true);
 
                 expect(called).toBeTruthy();
@@ -183,7 +181,7 @@ describe('FluentApiCall', () => {
 
             it('should not emit error to subscriber if api calls just result callback', fakeAsync(()=>{
                 let called = false;
-                rawApiResultSpy.and.callFake((callback) => {callback(); });
+                rawApiResultSpy.and.callFake((callback: any) => {callback(); });
                 subject.asObservable().subscribe(()=>{}, () => called = true);
 
                 expect(called).toBeFalsy();
@@ -191,7 +189,7 @@ describe('FluentApiCall', () => {
 
             it('should not emit result to subscriber if api calls just error callback', fakeAsync(()=>{
                 let called = false;
-                rawApiErrorSpy.and.callFake((callback) => {callback(); });
+                rawApiErrorSpy.and.callFake((callback: any) => {callback(); });
                 subject.asObservable().subscribe(() => called = true, ()=>{});
 
                 expect(called).toBeFalsy();
@@ -199,7 +197,7 @@ describe('FluentApiCall', () => {
 
             it('should emit dataObject to subscriber if api calls result callback', fakeAsync(()=>{
                 let dataObject = {};
-                rawApiResultSpy.and.callFake((callback) => {callback(dataObject); });
+                rawApiResultSpy.and.callFake((callback: any) => {callback(dataObject); });
                 let called = false;
                 subject.asObservable().subscribe((data)=>{
                     expect(data).toBe(dataObject);
@@ -211,7 +209,7 @@ describe('FluentApiCall', () => {
 
             it('should emit error to subscriber if api calls error callback', fakeAsync(()=>{
                 let error = {};
-                rawApiErrorSpy.and.callFake((callback) => {callback(error); });
+                rawApiErrorSpy.and.callFake((callback: any) => {callback(error); });
                 let called = false;
                 subject.asObservable().subscribe(()=>{}, (data)=>{
                     expect(data).toBe(error);

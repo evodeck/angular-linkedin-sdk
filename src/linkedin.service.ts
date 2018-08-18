@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observer } from 'rxjs/Observer';
 import { Observable } from 'rxjs/Observable';
 import { switchMap } from 'rxjs/operators';
-
+ 
 @Injectable()
 export class LinkedInService {
     /**

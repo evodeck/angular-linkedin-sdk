@@ -60,7 +60,8 @@
   "peerDependencies": {
     "@angular/common": "^6.0.0",
     "@angular/core": "^6.0.0",
-    "rxjs": "^6.0.0"
+    "rxjs": "^6.0.0",
+    "rxjs-compat": "^6.0.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",
@@ -84,7 +85,13 @@
     "protractor": "^5.4.0",
     "ts-node": "5.0.1",
     "tslint": "5.9.1",
-    "typescript": "2.7.2"
+    "typescript": "2.7.2",
+    "ncp": "^2.0.0",
+    "replace": "~0.3.0",
+    "rimraf": "^2.6.1",
+    "rm-cli": "^1.2.1",
+    "rxjs": "^6.0.0",
+    "rxjs-compat": "^6.0.0"
   },
   "engines": {
     "node": ">=6.0.0"

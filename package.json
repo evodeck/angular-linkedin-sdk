@@ -96,7 +96,7 @@
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.0.0",
     "zone.js": "^0.8.4",
-    "bluebird": "^2.9.34"
+    "bluebird": "^3.5.0"
   },
   "engines": {
     "node": ">=8.0.0"

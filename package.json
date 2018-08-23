@@ -95,7 +95,8 @@
     "rm-cli": "^1.2.1",
     "rxjs": "^6.0.0",
     "rxjs-compat": "^6.0.0",
-    "zone.js": "^0.8.4"
+    "zone.js": "^0.8.4",
+    "bluebird": "^2.9.34"
   },
   "engines": {
     "node": ">=8.0.0"

@@ -96,7 +96,7 @@
      "ncp": "^2.0.0",
      "replace": "^1.0.0",
      "rimraf": "^2.6.1",
-    "rm-cli": "^1.2.1",
+    "del-cli": "1.1.0",
     "bluebird": "^3.5.0"
   },
   "engines": {

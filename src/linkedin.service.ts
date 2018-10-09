@@ -1,21 +1,12 @@
-import {
-    Injectable,
-    Inject,
-    Optional
-} from '@angular/core';
-import {
-    DomHelper
-} from './dom.helper';
-import {
-    FluentApiCall
-} from './fluent.api.call';
-import {
-    AsyncSubject,
-    BehaviorSubject,
-    Observable,
-    Observer
-} from 'rxjs';
-
+import { Injectable, Inject, Optional } from '@angular/core';
+import { DomHelper } from './dom.helper';
+import { FluentApiCall } from './fluent.api.call';
+import { AsyncSubject } from 'rxjs/AsyncSubject';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observer } from 'rxjs/Observer';
+import { Observable } from 'rxjs/Observable';
+import { switchMap } from 'rxjs/operators';
+ 
 @Injectable()
 export class LinkedInService {
     /**
@@ -63,8 +54,8 @@ export class LinkedInService {
      * it will present the popup authorization window.
      */
     public login() {
-        return this.isInitialized$
-            .switchMap(() => {
+        return this.isInitialized$.pipe(
+            switchMap(() => {
                 return Observable.create(
                     (observer: Observer<boolean>) => {
                         this._window.IN.User.authorize(() => {
@@ -72,7 +63,9 @@ export class LinkedInService {
                             observer.complete();
                         });
                     });
-            });
+            })
+        )
+            ;
     }
 
     /**
@@ -81,8 +74,8 @@ export class LinkedInService {
      * delete the user's authorization grant for your application.
      */
     public logout() {
-        return this.isInitialized$
-            .switchMap(() => {
+        return this.isInitialized$.pipe(
+            switchMap(() => {
                 return Observable.create(
                     (observer: Observer<void>) => {
                         this._window.IN.User.logout(() => {
@@ -90,7 +83,8 @@ export class LinkedInService {
                             observer.complete();
                         });
                     });
-            });
+            })
+        );
     }
 
     /**
@@ -99,15 +93,16 @@ export class LinkedInService {
      * logged in can result in your application being disabled.  Use this call sparingly.
      */
     public refresh() {
-        return this.isInitialized$
-            .switchMap(() => {
+        return this.isInitialized$.pipe(
+            switchMap(() => {
                 return Observable.create(
                     (observer: Observer<any>) => {
                         this._window.IN.User.refresh();
                         observer.next(undefined);
                         observer.complete();
                     });
-            });
+            })
+        );
     }
 
     /**

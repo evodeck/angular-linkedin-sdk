@@ -1,20 +1,11 @@
-import {
-    Injectable,
-    Inject,
-    Optional
-} from '@angular/core';
-import {
-    DomHelper
-} from './dom.helper';
-import {
-    FluentApiCall
-} from './fluent.api.call';
-import {
-    AsyncSubject,
-    BehaviorSubject,
-    Observable,
-    Observer
-} from 'rxjs';
+import { Injectable, Inject, Optional } from "@angular/core";
+import { DomHelper } from "./dom.helper";
+import { FluentApiCall } from "./fluent.api.call";
+import { AsyncSubject } from "rxjs/AsyncSubject";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Observer } from "rxjs/Observer";
+import { Observable } from "rxjs/Observable";
+import { switchMap } from "rxjs/operators";
 
 @Injectable()
 export class LinkedInService {
@@ -34,10 +25,14 @@ export class LinkedInService {
 
     public constructor(
         private _domHelper: DomHelper,
-        @Inject('window') private _window: any,
-        @Inject('apiKey') private _apiKey: string,
-        @Inject('authorize') @Optional() authorize?: boolean,
-        @Inject('isServer') @Optional() isServer?: boolean
+        @Inject("window") private _window: any,
+        @Inject("apiKey") private _apiKey: string,
+        @Inject("authorize")
+        @Optional()
+        authorize?: boolean,
+        @Inject("isServer")
+        @Optional()
+        isServer?: boolean
     ) {
         this._authorize = authorize || false;
         this._initializationStateSource = new AsyncSubject<boolean>();
@@ -48,7 +43,8 @@ export class LinkedInService {
             () => this._onLibraryLoadedAndInitialized(),
             this._apiKey,
             this._authorize,
-            isServer);
+            isServer
+        );
     }
 
     /**
@@ -63,16 +59,16 @@ export class LinkedInService {
      * it will present the popup authorization window.
      */
     public login() {
-        return this.isInitialized$
-            .switchMap(() => {
-                return Observable.create(
-                    (observer: Observer<boolean>) => {
-                        this._window.IN.User.authorize(() => {
-                            observer.next(true);
-                            observer.complete();
-                        });
+        return this.isInitialized$.pipe(
+            switchMap(() => {
+                return Observable.create((observer: Observer<boolean>) => {
+                    this._window.IN.User.authorize(() => {
+                        observer.next(true);
+                        observer.complete();
                     });
-            });
+                });
+            })
+        );
     }
 
     /**
@@ -81,16 +77,16 @@ export class LinkedInService {
      * delete the user's authorization grant for your application.
      */
     public logout() {
-        return this.isInitialized$
-            .switchMap(() => {
-                return Observable.create(
-                    (observer: Observer<void>) => {
-                        this._window.IN.User.logout(() => {
-                            observer.next(undefined);
-                            observer.complete();
-                        });
+        return this.isInitialized$.pipe(
+            switchMap(() => {
+                return Observable.create((observer: Observer<void>) => {
+                    this._window.IN.User.logout(() => {
+                        observer.next(undefined);
+                        observer.complete();
                     });
-            });
+                });
+            })
+        );
     }
 
     /**
@@ -99,15 +95,15 @@ export class LinkedInService {
      * logged in can result in your application being disabled.  Use this call sparingly.
      */
     public refresh() {
-        return this.isInitialized$
-            .switchMap(() => {
-                return Observable.create(
-                    (observer: Observer<any>) => {
-                        this._window.IN.User.refresh();
-                        observer.next(undefined);
-                        observer.complete();
-                    });
-            });
+        return this.isInitialized$.pipe(
+            switchMap(() => {
+                return Observable.create((observer: Observer<any>) => {
+                    this._window.IN.User.refresh();
+                    observer.next(undefined);
+                    observer.complete();
+                });
+            })
+        );
     }
 
     /**
@@ -131,17 +127,11 @@ export class LinkedInService {
     }
 
     private _setEventsOn() {
-        this._window.IN.Event.on(
-            this._window.IN,
-            'auth',
-            () => {
-                this.isUserAuthenticated$.next(true);
-            });
-        this._window.IN.Event.on(
-            this._window.IN,
-            'logout',
-            () => {
-                this.isUserAuthenticated$.next(false);
-            });
+        this._window.IN.Event.on(this._window.IN, "auth", () => {
+            this.isUserAuthenticated$.next(true);
+        });
+        this._window.IN.Event.on(this._window.IN, "logout", () => {
+            this.isUserAuthenticated$.next(false);
+        });
     }
 }

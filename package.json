@@ -3,7 +3,7 @@
     "version": "0.1.7",
     "scripts": {
         "e2e": "npm run build && npm run copy_demo && cd demo && tsc && sleep 10 && ng e2e --port 4000",
-        "e2e:Travis": "npm run build && npm run copy_demo && cd demo && tsc && sleep 10 && ng e2e -H linkedin-e2e.dev --port 4000",
+        "e2e:Travis": "npm run build && npm run copy_demo && cd demo && tsc && sleep 10 && ng e2e --host linkedin-e2e.dev --port 4000",
         "e2e:sc": "npm run build && npm run copy_demo && cd demo && tsc && ng e2e --port 4000 -c protractor-sc.conf.js",
         "replace": "node_modules/.bin/replace \"(.)scripts[\\s\\S]*?}\\,\" \"\" package.json",
         "copy": "ncp README.MD dist/README.MD && ncp package.json dist/package.json && cd dist && npm run-script replace",

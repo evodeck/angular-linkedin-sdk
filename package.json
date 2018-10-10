@@ -60,6 +60,7 @@
         "rxjs-compat": "^6.0.0-rc.0"
     },
     "devDependencies": {
+        "bluebird": "^3.5.2",
         "@angular/cli": "6.2.4",
         "@angular/common": "6.1.9",
         "@angular/compiler": "6.1.9",

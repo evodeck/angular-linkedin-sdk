@@ -15,7 +15,9 @@ var configuration = {
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,
-    print: function() {}
+    print: function(param) {
+      console.log(param);
+    }
   },
   onPrepare() {
     jasmine

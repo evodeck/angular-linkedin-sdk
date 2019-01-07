@@ -71,6 +71,7 @@
         "@types/node": "10.11.6",
         "codelyzer": "4.5.0",
         "core-js": "2.5.7",
+        "https-proxy-agent": "2.2.0",
         "jasmine-core": "3.2.1",
         "jasmine-spec-reporter": "4.2.1",
         "karma": "3.0.0",
@@ -88,6 +89,8 @@
         "ts-node": "7.0.1",
         "tslint": "5.11.0",
         "typescript": "2.7.2",
+        "webpack": "^4.0.0",
+        "webpack-dev-server": "3.1.11",
         "zone.js": "^0.8.4"
     },
     "engines": {

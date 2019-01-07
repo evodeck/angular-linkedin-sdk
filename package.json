@@ -89,8 +89,6 @@
         "ts-node": "7.0.1",
         "tslint": "5.11.0",
         "typescript": "2.7.2",
-        "webpack": "^4.0.0",
-        "webpack-dev-server": "3.1.11",
         "zone.js": "^0.8.4"
     },
     "engines": {
